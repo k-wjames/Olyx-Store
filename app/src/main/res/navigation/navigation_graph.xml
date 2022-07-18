@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/sellFragment"
+        android:name="ke.co.ideagalore.olyxstore.SellFragment"
+        android:label="fragment_sell"
+        tools:layout="@layout/fragment_sell" />
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="ke.co.ideagalore.olyxstore.TransactionsFragment"
+        android:label="fragment_transactions"
+        tools:layout="@layout/fragment_transactions" />
+    <fragment
+        android:id="@+id/stockFragment"
+        android:name="ke.co.ideagalore.olyxstore.StockFragment"
+        android:label="fragment_stock"
+        tools:layout="@layout/fragment_stock" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="ke.co.ideagalore.olyxstore.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+</navigation>
