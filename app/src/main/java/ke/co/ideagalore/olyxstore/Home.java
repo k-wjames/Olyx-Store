@@ -14,8 +14,6 @@ import java.util.Locale;
 
 public class Home extends AppCompatActivity {
 
-    int day, month, year;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

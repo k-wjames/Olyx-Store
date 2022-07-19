@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/drawable/ic_back.xml" value="0.2055" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/drawable/ic_person.xml" value="0.2055" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/drawable/ic_stock.xml" value="0.2055" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/activity_home.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/activity_splash.xml" value="0.22" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_home.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_orders.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_sell.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_stock.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/product_item.xml" value="0.2405982905982906" />
       </map>
     </option>
   </component>

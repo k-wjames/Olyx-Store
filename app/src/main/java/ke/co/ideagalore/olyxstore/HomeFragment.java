@@ -4,18 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import java.util.Calendar;
 import java.util.Locale;
 
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     FragmentHomeBinding binding;
 
@@ -35,6 +35,10 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getCurrentDate();
+        binding.cvSell.setOnClickListener(this);
+        binding.cvTransactions.setOnClickListener(this);
+        binding.cvStock.setOnClickListener(this);
+        binding.cvOrders.setOnClickListener(this);
     }
 
     private void getCurrentDate() {
@@ -45,7 +49,21 @@ public class HomeFragment extends Fragment {
 
         String dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
 
-        binding.tvDay.setText(dayOfWeek+",");
+        binding.tvDay.setText(dayOfWeek + ",");
         binding.tvDate.setText(day + " " + month + " " + year);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == binding.cvSell) {
+            Navigation.findNavController(view).navigate(R.id.sellFragment);
+        } else if (view == binding.cvTransactions) {
+            Navigation.findNavController(view).navigate(R.id.transactionsFragment);
+        } else if (view == binding.cvStock) {
+            Navigation.findNavController(view).navigate(R.id.stockFragment);
+        } else if (view == binding.cvOrders) {
+            Navigation.findNavController(view).navigate(R.id.ordersFragment);
+        }
     }
 }

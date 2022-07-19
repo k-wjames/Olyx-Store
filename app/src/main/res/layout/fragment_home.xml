@@ -181,7 +181,7 @@
             app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
-            android:id="@+id/cv_sales">
+            android:id="@+id/cv_sell">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -222,7 +222,7 @@
             app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
-            android:id="@+id/cv_statistics">
+            android:id="@+id/cv_transactions">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -274,7 +274,7 @@
             app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
-            android:id="@+id/cv_shops">
+            android:id="@+id/cv_stock">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -316,7 +316,7 @@
             app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
-            android:id="@+id/cv_staff">
+            android:id="@+id/cv_orders">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -340,7 +340,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
                     android:fontFamily="@font/roboto_mono"
-                    android:text="Staff"
+                    android:text="Orders"
                     android:textColor="@color/text"
                     android:textSize="16sp"
                     android:textStyle="bold" />
