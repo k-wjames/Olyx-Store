@@ -2,63 +2,96 @@ package ke.co.ideagalore.olyxstore;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CheckoutFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CheckoutFragment extends Fragment {
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import ke.co.ideagalore.olyxstore.databinding.FragmentCheckoutBinding;
+import ke.co.ideagalore.olyxstore.models.Sale;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class CheckoutFragment extends Fragment implements View.OnClickListener{
+
+    FragmentCheckoutBinding binding;
+
+    String brand;
+    int capacity;
+    int price;
 
     public CheckoutFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CheckoutFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CheckoutFragment newInstance(String param1, String param2) {
-        CheckoutFragment fragment = new CheckoutFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_checkout, container, false);
+        binding=FragmentCheckoutBinding.inflate(inflater, container,false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Bundle arguments = getArguments();
+
+        if (arguments != null) {
+            String prodId = arguments.get("prodId").toString();
+            brand = arguments.get("brand").toString();
+            capacity = Integer.parseInt(arguments.get("capacity").toString());
+            price = Integer.parseInt(arguments.get("price").toString());
+
+            binding.tvItem.setText(brand);
+            binding.tvDescription.setText(capacity+" kgs");
+            binding.tvPrice.setText(price+"");
+
+            binding.btnCheckOut.setText("Pay Kshs. "+price+ " for "+brand+" "+capacity+"kgs");
+
+        }
+
+        binding.btnCheckOut.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (view==binding.btnCheckOut){
+
+            DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Sales");
+            String key=reference.push().getKey();
+            Sale sale=new Sale();
+            sale.setSaleId(key);
+            sale.setPrice(String.valueOf(price));
+            sale.setBrand(brand);
+            sale.setQuantity(String.valueOf(capacity));
+
+            reference.child(key).setValue(sale).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    Toast.makeText(getActivity(), "Sale successful", Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(view).navigate(R.id.homeFragment);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+
     }
 }

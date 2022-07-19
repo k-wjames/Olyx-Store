@@ -58,7 +58,6 @@
 
     </androidx.cardview.widget.CardView>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_stock"
         android:layout_width="match_parent"
@@ -67,54 +66,5 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="15dp"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp">
-
-        <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="0"
-            android:textColor="@color/text"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/tv_count"
-            android:text="Items selected"
-            android:textColor="@color/text"
-            android:textSize="16sp" />
-
-
-        <Button
-            android:id="@+id/btn_add_catalogue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/roboto_mono"
-            android:padding="10dp"
-            android:text="Check out"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/black" />
-
-
-    </RelativeLayout>
 
 </RelativeLayout>
