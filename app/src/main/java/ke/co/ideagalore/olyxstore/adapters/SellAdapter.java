@@ -43,23 +43,21 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.ViewHolder> {
 
         product=productArrayList.get(position);
 
-        holder.brand.setText(product.getBrand());
-        holder.capacity.setText(product.getCapacity()+" Kg ");
-        holder.quantity.setText(product.getQuantity()+"");
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id=product.getProdId();
-                String brand=product.getBrand();
-                int capacity=product.getCapacity();
+        String id=product.getProdId();
+        String brand=product.getBrand();
+        int capacity=product.getCapacity();
 
-                Bundle bundle = new Bundle();
-                bundle.putString("prodId", id);
-                bundle.putString("brand", brand);
-                bundle.putInt("capacity", capacity);
-                bundle.putInt("price", 1200);
-                Navigation.findNavController(view).navigate(R.id.checkoutFragment, bundle);
-            }
+        holder.brand.setText(product.getBrand());
+        holder.capacity.setText(capacity+" Kg ");
+        holder.quantity.setText(product.getQuantity()+"");
+        holder.layout.setOnClickListener(view -> {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("prodId", id);
+            bundle.putString("brand", brand);
+            bundle.putInt("capacity", capacity);
+            bundle.putInt("price", 1200);
+            Navigation.findNavController(view).navigate(R.id.checkoutFragment, bundle);
         });
 
     }

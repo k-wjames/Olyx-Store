@@ -73,7 +73,7 @@ public class SellFragment extends Fragment {
                 for (DataSnapshot stockSnapshot : snapshot.getChildren()) {
 
                     product = stockSnapshot.getValue(Product.class);
-                    productArrayList.add(product);
+                    productArrayList.add(0,product);
 
                 }
 
