@@ -1,16 +1,21 @@
 package ke.co.ideagalore.olyxstore;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +28,7 @@ import ke.co.ideagalore.olyxstore.adapters.SellAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
 import ke.co.ideagalore.olyxstore.models.Product;
 
-public class SellFragment extends Fragment {
+public class SellFragment extends Fragment implements View.OnClickListener {
 
     FragmentSellBinding binding;
 
@@ -48,6 +53,11 @@ public class SellFragment extends Fragment {
         productArrayList = new ArrayList<>();
         getStockItems();
 
+        binding.llRefill.setOnClickListener(this);
+        binding.llBuyGas.setOnClickListener(this);
+        binding.llBuyAccessory.setOnClickListener(this);
+
+
        /* binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -65,7 +75,7 @@ public class SellFragment extends Fragment {
 
     private void getStockItems() {
 
-        /*DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Stock");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Stock");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -73,14 +83,14 @@ public class SellFragment extends Fragment {
                 for (DataSnapshot stockSnapshot : snapshot.getChildren()) {
 
                     product = stockSnapshot.getValue(Product.class);
-                    productArrayList.add(0,product);
+                    productArrayList.add(0, product);
 
                 }
 
-                binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
+                /*binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
                 binding.rvStock.setHasFixedSize(true);
                 adapter = new SellAdapter(getActivity(), productArrayList);
-                binding.rvStock.setAdapter(adapter);
+                binding.rvStock.setAdapter(adapter);*/
 
             }
 
@@ -88,7 +98,7 @@ public class SellFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
+        });
 
     }
 
@@ -103,5 +113,158 @@ public class SellFragment extends Fragment {
         binding.rvStock.setHasFixedSize(true);
         adapter = new SellAdapter(getActivity(), filteredList);
         binding.rvStock.setAdapter(adapter);*/
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == binding.llRefill) {
+
+            showRefillDialog();
+        } else if (view == binding.llBuyGas) {
+
+            showSellNewGasDialog();
+
+        } else if (view == binding.llBuyAccessory) {
+
+            sellAnAccessoryDialog();
+        }
+    }
+
+    private void sellAnAccessoryDialog() {
+
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.sell_accessory_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        final Product[] selectedProduct = new Product[1];
+        EditText edtProduct = dialog.findViewById(R.id.edtProduct);
+        Spinner spinner = dialog.findViewById(R.id.spinner_product);
+        TextInputLayout tilProduct = dialog.findViewById(R.id.til_product);
+
+
+        tilProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        selectedProduct[0] = (Product) adapterView.getAdapter().getItem(i);
+                        edtProduct.setText(selectedProduct[0].getBrand());
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+        });
+        TextView cancel = dialog.findViewById(R.id.tv_cancel);
+        cancel.setOnClickListener(view -> dialog.dismiss());
+
+        Button save = dialog.findViewById(R.id.btn_add);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showSellNewGasDialog() {
+
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.sell_gas_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        final Product[] selectedProduct = new Product[1];
+        EditText edtProduct = dialog.findViewById(R.id.edtProduct);
+        Spinner spinner = dialog.findViewById(R.id.spinner_product);
+        TextInputLayout tilProduct = dialog.findViewById(R.id.til_product);
+
+
+        tilProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        selectedProduct[0] = (Product) adapterView.getAdapter().getItem(i);
+                        edtProduct.setText(selectedProduct[0].getBrand());
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+        });
+        TextView cancel = dialog.findViewById(R.id.tv_cancel);
+        cancel.setOnClickListener(view -> dialog.dismiss());
+
+        Button save = dialog.findViewById(R.id.btn_add);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showRefillDialog() {
+
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.refill_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        final Product[] selectedProduct = new Product[1];
+        EditText edtProduct = dialog.findViewById(R.id.edtProduct);
+        Spinner spinner = dialog.findViewById(R.id.spinner_product);
+        TextInputLayout tilProduct = dialog.findViewById(R.id.til_product);
+
+
+        tilProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        selectedProduct[0] = (Product) adapterView.getAdapter().getItem(i);
+                        edtProduct.setText(selectedProduct[0].getBrand());
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+        });
+        TextView cancel = dialog.findViewById(R.id.tv_cancel);
+        cancel.setOnClickListener(view -> dialog.dismiss());
+
+        Button save = dialog.findViewById(R.id.btn_add);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
     }
 }
