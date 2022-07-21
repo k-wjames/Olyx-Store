@@ -11,7 +11,7 @@
         android:id="@+id/tv_dash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/lato"
         android:text="Olyx, Mwimuto Store"
@@ -205,7 +205,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
                     android:fontFamily="@font/lato"
-                    android:text="Sell"
+                    android:text="Transact"
                     android:textColor="@color/text"
                     android:textSize="16sp"
                     android:textStyle="bold" />

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     tools:context=".SellFragment">
 
@@ -20,9 +20,9 @@
             android:id="@+id/iv_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/text"
-            android:layout_marginLeft="10dp"/>
+            app:tint="@color/text" />
 
         <TextView
             android:id="@+id/tv_dash"
@@ -30,41 +30,225 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:fontFamily="@font/lato"
-            android:text="Make a sale"
+            android:text="Transact"
             android:textColor="@color/text"
             android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <LinearLayout
+        android:id="@+id/layer_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layer_one"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginRight="10dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="8dp">
+        android:layout_below="@+id/layer_one"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:defaultQueryHint="Search..."
-            app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent" />
+        <LinearLayout
+            android:id="@+id/ll_refill"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/refill_bg"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/lato"
+                android:text="Gas refill"
+                android:textColor="@color/text"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_new_cylinder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/refill_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/lato"
+                android:text="New cylinder"
+                android:textColor="@color/text"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_buy_accessory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/refill_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/lato"
+                android:text="Buy accessory"
+                android:textColor="@color/text"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layer_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layer_two"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="2"
+            android:fontFamily="@font/lato"
+            android:text="Item"
+            android:textColor="@color/text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato"
+            android:gravity="center"
+            android:text="Quantity"
+            android:textColor="@color/text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato"
+            android:gravity="center"
+            android:text="Unit price"
+            android:textColor="@color/text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato"
+            android:gravity="end"
+            android:text="Total in Kshs"
+            android:textColor="@color/text"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/layer_three"
+        android:background="@color/text" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_stock"
+        android:id="@+id/rv_sales"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cardView"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_below="@+id/view"
+        android:layout_marginTop="10dp" />
+
+    <View
+        android:id="@+id/view_two"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/layer_bottom"
+        android:background="@color/text" />
+
+    <RelativeLayout
+        android:id="@+id/layer_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="50dp">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato"
+            android:gravity="end"
+            android:text="Total spend (Kshs.) "
+            android:textColor="@color/text"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/text"
+            android:fontFamily="@font/lato"
+            android:gravity="end"
+            android:text="0.00 "
+            android:textColor="@color/text"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/tv_total_spend"/>
+
+        <Button
+            android:id="@+id/btn_check_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/lato"
+            android:padding="10dp"
+            android:text="Check out"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/black" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

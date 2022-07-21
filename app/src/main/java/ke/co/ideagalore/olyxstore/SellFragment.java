@@ -48,7 +48,7 @@ public class SellFragment extends Fragment {
         productArrayList = new ArrayList<>();
         getStockItems();
 
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+       /* binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
@@ -60,12 +60,12 @@ public class SellFragment extends Fragment {
                 searchProduct(newText);
                 return true;
             }
-        });
+        });*/
     }
 
     private void getStockItems() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Stock");
+        /*DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Stock");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,7 +88,7 @@ public class SellFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
 
     }
 
@@ -99,9 +99,9 @@ public class SellFragment extends Fragment {
                 filteredList.add(object);
             }
         }
-        binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
+       /* binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvStock.setHasFixedSize(true);
         adapter = new SellAdapter(getActivity(), filteredList);
-        binding.rvStock.setAdapter(adapter);
+        binding.rvStock.setAdapter(adapter);*/
     }
 }
