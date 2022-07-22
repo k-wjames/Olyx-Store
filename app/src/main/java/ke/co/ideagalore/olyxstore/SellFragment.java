@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +28,9 @@ import java.util.ArrayList;
 
 import ke.co.ideagalore.olyxstore.adapters.SellAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
+import ke.co.ideagalore.olyxstore.models.Catalogue;
 import ke.co.ideagalore.olyxstore.models.Product;
+import ke.co.ideagalore.olyxstore.models.TestItem;
 
 public class SellFragment extends Fragment implements View.OnClickListener {
 
@@ -35,6 +39,14 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     ArrayList<Product> productArrayList;
     Product product;
     SellAdapter adapter;
+
+    ArrayList<Catalogue> catalogueArrayList;
+
+    ArrayList<TestItem> myTestArray;
+
+    TestItem testItem;
+
+    boolean list;
 
     public SellFragment() {
     }
@@ -51,7 +63,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         productArrayList = new ArrayList<>();
-        getStockItems();
+
+        getCatalogueData();
 
         binding.llRefill.setOnClickListener(this);
         binding.llBuyGas.setOnClickListener(this);
@@ -73,33 +86,51 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         });*/
     }
 
-    private void getStockItems() {
+    private void getCatalogueData() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Stock");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Catalogue");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot stockSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot catalogueSnapshot : snapshot.getChildren()) {
+                    Catalogue catalogue = catalogueSnapshot.getValue(Catalogue.class);
 
-                    product = stockSnapshot.getValue(Product.class);
-                    productArrayList.add(0, product);
+                    ArrayList<Catalogue>catalogueArrayList=new ArrayList<>();
+                    catalogueArrayList.add(catalogue);
+
+                    for (int i=0; i<catalogueArrayList.size();i++){
+
+                        String prod=catalogueArrayList.get(i).getProduct();
+                        int price=catalogueArrayList.get(i).getSellingPrice();
+
+                        testItem=new TestItem();
+                        myTestArray=new ArrayList<>();
+                        //testItem.setPrice(price);
+                        testItem.setProduct(prod);
+                        myTestArray.add(testItem);
+
+                        list=myTestArray.add(testItem);
+
+                        for (int x=0; x<myTestArray.size(); x++){
+
+                        //Toast.makeText(getActivity(), ""+myTestArray.get(x).getProduct(), Toast.LENGTH_SHORT).show();
+                        }
+                       //Toast.makeText(getActivity(), prod+" "+price, Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
-                /*binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
-                binding.rvStock.setHasFixedSize(true);
-                adapter = new SellAdapter(getActivity(), productArrayList);
-                binding.rvStock.setAdapter(adapter);*/
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+                Toast.makeText(getActivity(), "Oops! Something went wrong. Be sure it's not you.", Toast.LENGTH_SHORT).show();
+
             }
         });
-
     }
 
     private void searchProduct(String item) {
@@ -138,42 +169,25 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
-        final Product[] selectedProduct = new Product[1];
-        EditText edtProduct = dialog.findViewById(R.id.edtProduct);
-        Spinner spinner = dialog.findViewById(R.id.spinner_product);
-        TextInputLayout tilProduct = dialog.findViewById(R.id.til_product);
+/*
+
+      */
+/*  ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                list.size(), R.layout.spinner_item);*//*
 
 
-        tilProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                        selectedProduct[0] = (Product) adapterView.getAdapter().getItem(i);
-                        edtProduct.setText(selectedProduct[0].getBrand());
+        ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<CharSequence>(getActivity(), list, R.layout.spinner_item);
 
-                    }
+        Spinner spinner=dialog.findViewById(R.id.spinner_product);
+        spinner.setAdapter(arrayAdapter);
+*/
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-            }
-        });
         TextView cancel = dialog.findViewById(R.id.tv_cancel);
         cancel.setOnClickListener(view -> dialog.dismiss());
 
         Button save = dialog.findViewById(R.id.btn_add);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-            }
-        });
+        save.setOnClickListener(view -> dialog.dismiss());
     }
 
     private void showSellNewGasDialog() {
