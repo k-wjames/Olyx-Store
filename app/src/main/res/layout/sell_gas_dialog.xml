@@ -33,50 +33,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp">
-
-            <EditText
-                android:id="@+id/edtProduct"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/refill_bg"
-                android:drawableEnd="@drawable/ic_drop_down"
-                android:focusable="false"
-                android:hint="Select product"
-                android:inputType="none" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/refill_bg">
 
         <Spinner
             android:id="@+id/spinner_product"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:spinnerMode="dialog"
             tools:listitem="@layout/spinner_item" />
 
     </LinearLayout>
-
-    <!--<EditText
-        android:id="@+id/edt_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/refill_bg"
-        android:hint="Select product"
-        android:inputType="number"
-        android:textColorHint="@color/text"
-        android:textSize="14sp"
-        android:textCursorDrawable="@null"/>-->
 
 
     <TextView

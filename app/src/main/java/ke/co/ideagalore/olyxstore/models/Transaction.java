@@ -1,21 +1,24 @@
 package ke.co.ideagalore.olyxstore.models;
 
+
 public class Transaction {
-    String transactionType, product, price, profit, quantity, time, shop, transactionId;
+    String transactionType, product, shop,date, transactionId;
+    int  price, profit, quantity;
+
 
     public Transaction() {
     }
 
-    public Transaction(String transactionType, String product, String price, String profit,
-                       String quantity, String time, String shop, String transactionId) {
+    public Transaction(String transactionType, String product, String shop, String date,
+                       String transactionId, int price, int profit, int quantity) {
         this.transactionType = transactionType;
         this.product = product;
+        this.shop = shop;
+        this.date = date;
+        this.transactionId = transactionId;
         this.price = price;
         this.profit = profit;
         this.quantity = quantity;
-        this.time = time;
-        this.shop = shop;
-        this.transactionId = transactionId;
     }
 
     public String getTransactionType() {
@@ -34,38 +37,6 @@ public class Transaction {
         this.product = product;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getProfit() {
-        return profit;
-    }
-
-    public void setProfit(String profit) {
-        this.profit = profit;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     public String getShop() {
         return shop;
     }
@@ -74,11 +45,43 @@ public class Transaction {
         this.shop = shop;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getTransactionId() {
         return transactionId;
     }
 
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getProfit() {
+        return profit;
+    }
+
+    public void setProfit(int profit) {
+        this.profit = profit;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

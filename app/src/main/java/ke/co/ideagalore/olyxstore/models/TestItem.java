@@ -2,23 +2,32 @@ package ke.co.ideagalore.olyxstore.models;
 
 public class TestItem {
 
-    int price;
+    int buyingPrice, markedPrice;
     String product;
 
     public TestItem() {
     }
 
-    public TestItem(int price, String product) {
-        this.price = price;
+    public TestItem(int buyingPrice, int markedPrice, String product) {
+        this.buyingPrice = buyingPrice;
+        this.markedPrice = markedPrice;
         this.product = product;
     }
 
-    public int getPrice() {
-        return price;
+    public int getBuyingPrice() {
+        return buyingPrice;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setBuyingPrice(int buyingPrice) {
+        this.buyingPrice = buyingPrice;
+    }
+
+    public int getMarkedPrice() {
+        return markedPrice;
+    }
+
+    public void setMarkedPrice(int markedPrice) {
+        this.markedPrice = markedPrice;
     }
 
     public String getProduct() {
