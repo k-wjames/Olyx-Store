@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textColor="@color/text"
-    android:textStyle="bold"
     android:textSize="16sp"
-    android:fontFamily="@font/lato">
+    android:fontFamily="@font/lato"
+    android:padding="10dp">
 
 </TextView>

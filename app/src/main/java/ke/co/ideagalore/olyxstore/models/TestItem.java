@@ -28,4 +28,9 @@ public class TestItem {
     public void setProduct(String product) {
         this.product = product;
     }
+
+    public String toString()
+    {
+        return product;
+    }
 }

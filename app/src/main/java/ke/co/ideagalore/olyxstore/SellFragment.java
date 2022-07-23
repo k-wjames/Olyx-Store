@@ -26,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import ke.co.ideagalore.olyxstore.adapters.SellAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
 import ke.co.ideagalore.olyxstore.models.Catalogue;
 import ke.co.ideagalore.olyxstore.models.Product;
@@ -36,17 +35,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     FragmentSellBinding binding;
 
-    ArrayList<Product> productArrayList;
-    Product product;
-    SellAdapter adapter;
-
-    ArrayList<Catalogue> catalogueArrayList;
-
-    ArrayList<TestItem> myTestArray;
+    ArrayList<TestItem> myGasArray,myAccessoriesArray;
 
     TestItem testItem;
 
-    boolean list;
+    int price, sellingPrice;
 
     public SellFragment() {
     }
@@ -61,11 +54,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        productArrayList = new ArrayList<>();
-
+        myGasArray = new ArrayList<>();
+        myAccessoriesArray = new ArrayList<>();
         getCatalogueData();
-
         binding.llRefill.setOnClickListener(this);
         binding.llBuyGas.setOnClickListener(this);
         binding.llBuyAccessory.setOnClickListener(this);
@@ -96,27 +87,29 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 for (DataSnapshot catalogueSnapshot : snapshot.getChildren()) {
                     Catalogue catalogue = catalogueSnapshot.getValue(Catalogue.class);
 
-                    ArrayList<Catalogue>catalogueArrayList=new ArrayList<>();
+                    ArrayList<Catalogue> catalogueArrayList = new ArrayList<>();
                     catalogueArrayList.add(catalogue);
 
-                    for (int i=0; i<catalogueArrayList.size();i++){
+                    for (int i = 0; i < catalogueArrayList.size(); i++) {
 
-                        String prod=catalogueArrayList.get(i).getProduct();
-                        int price=catalogueArrayList.get(i).getSellingPrice();
+                        String prod = catalogueArrayList.get(i).getProduct();
+                        price = catalogueArrayList.get(i).getSellingPrice();
+                        String category = catalogueArrayList.get(i).getCategory();
 
-                        testItem=new TestItem();
-                        myTestArray=new ArrayList<>();
-                        //testItem.setPrice(price);
-                        testItem.setProduct(prod);
-                        myTestArray.add(testItem);
+                            testItem = new TestItem();
+                            if (category.equals("Gas")){
 
-                        list=myTestArray.add(testItem);
+                                testItem.setPrice(price);
+                                testItem.setProduct(prod);
+                                myGasArray.add(testItem);
 
-                        for (int x=0; x<myTestArray.size(); x++){
+                            }else {
+                                testItem.setPrice(price);
+                                testItem.setProduct(prod);
+                                myAccessoriesArray.add(testItem);
+                            }
 
-                        //Toast.makeText(getActivity(), ""+myTestArray.get(x).getProduct(), Toast.LENGTH_SHORT).show();
-                        }
-                       //Toast.makeText(getActivity(), prod+" "+price, Toast.LENGTH_SHORT).show();
+
                     }
 
                 }
@@ -134,13 +127,13 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void searchProduct(String item) {
-        ArrayList<Product> filteredList = new ArrayList<>();
+         /* ArrayList<Product> filteredList = new ArrayList<>();
         for (Product object : productArrayList) {
             if (object.getBrand().toLowerCase().contains(item.toLowerCase())) {
                 filteredList.add(object);
             }
         }
-       /* binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
+      binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvStock.setHasFixedSize(true);
         adapter = new SellAdapter(getActivity(), filteredList);
         binding.rvStock.setAdapter(adapter);*/
@@ -169,19 +162,31 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
-/*
 
-      */
-/*  ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                list.size(), R.layout.spinner_item);*//*
+        EditText quantity = dialog.findViewById(R.id.edt_quantity);
+        quantity.setText(1 + "");
+
+        EditText price = dialog.findViewById(R.id.edt_selling_price);
 
 
+        Spinner spinner = dialog.findViewById(R.id.spinner_product);
 
-        ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<CharSequence>(getActivity(), list, R.layout.spinner_item);
-
-        Spinner spinner=dialog.findViewById(R.id.spinner_product);
+        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<TestItem>(getActivity(), android.R.layout.simple_spinner_item, myAccessoriesArray);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(arrayAdapter);
-*/
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TestItem item = (TestItem) spinner.getSelectedItem();
+                sellingPrice = item.getPrice();
+                price.setText(sellingPrice + "");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        spinner.setAdapter(arrayAdapter);
 
         TextView cancel = dialog.findViewById(R.id.tv_cancel);
         cancel.setOnClickListener(view -> dialog.dismiss());
