@@ -9,6 +9,7 @@
     android:orientation="vertical"
     android:padding="20dp">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +19,6 @@
         android:textColor="@color/text"
         android:textSize="16sp"
         android:textStyle="bold" />
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/refill_bg"
-        android:hint="Quantity"
+        android:hint="1"
         android:inputType="number"
         android:textColorHint="@color/text"
         android:textCursorDrawable="@null"
