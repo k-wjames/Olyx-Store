@@ -64,7 +64,7 @@
             android:text="Description"
             android:textColor="@color/text"
             android:textStyle="bold"
-            android:gravity="center"/>
+            android:gravity="start"/>
 
         <TextView
             android:layout_width="0dp"
@@ -88,6 +88,15 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         android:background="@color/light" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/progress"
+        android:indeterminateOnly="true"
+        android:visibility="gone" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"

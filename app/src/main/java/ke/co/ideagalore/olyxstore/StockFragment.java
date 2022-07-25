@@ -20,15 +20,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import ke.co.ideagalore.olyxstore.adapters.ProductAdapter;
+import ke.co.ideagalore.olyxstore.adapters.StockAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentStockBinding;
 import ke.co.ideagalore.olyxstore.models.Product;
+import ke.co.ideagalore.olyxstore.models.StockItem;
 
 public class StockFragment extends Fragment {
 
     FragmentStockBinding binding;
-    ArrayList<Product> productArrayList;
-    Product product;
-    ProductAdapter adapter;
+    ArrayList<StockItem> stockArrayList;
+    StockItem stockItem;
+    StockAdapter adapter;
 
     public StockFragment() {
     }
@@ -43,23 +45,26 @@ public class StockFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        productArrayList=new ArrayList<>();
+        stockArrayList=new ArrayList<>();
         getStockData();
     }
 
     private void getStockData() {
 
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Stock");
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Catalogue");
+        binding.progressBar.setVisibility(View.VISIBLE);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot stockSnapshot:snapshot.getChildren()){
 
-                    product=stockSnapshot.getValue(Product.class);
-                    productArrayList.add(product);
+                    binding.progressBar.setVisibility(View.GONE);
 
-                    if (productArrayList.size()==0){
+                   stockItem=stockSnapshot.getValue(StockItem.class);
+                    stockArrayList.add(stockItem);
+
+                    if (stockArrayList.size()==0){
                         binding.animationView.setVisibility(View.VISIBLE);
                     }
                 }
@@ -67,14 +72,14 @@ public class StockFragment extends Fragment {
 
                 binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
                 binding.rvStock.setHasFixedSize(true);
-                adapter=new ProductAdapter(getActivity(),productArrayList);
+                adapter=new StockAdapter(getActivity(),stockArrayList);
                 binding.rvStock.setAdapter(adapter);
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                binding.progressBar.setVisibility(View.GONE);
             }
         });
     }

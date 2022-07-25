@@ -480,7 +480,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             int totalShillings = 0;
             for (int i = 0; i < myTransactionArray.size(); i++) {
 
-                totalShillings = +totalShillings + myTransactionArray.get(i).getTotalPrice();
+                totalShillings =+ totalShillings + myTransactionArray.get(i).getTotalPrice();
                 binding.tvTotalSpend.setText(totalShillings + "");
             }
             displayList();

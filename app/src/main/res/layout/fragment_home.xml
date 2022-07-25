@@ -79,6 +79,33 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_transactions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/lato"
+                    android:text="0.00"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato"
+                    android:text="Total sales"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
                     android:id="@+id/tv_sales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,7 +152,6 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/refill_bg"
-            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -138,13 +164,15 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_refill_sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/lato"
-                android:text="Kshs. 200"
+                android:text="Kshs. 0.00"
                 android:textColor="@color/text"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
 
@@ -156,7 +184,6 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/refill_bg"
-            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -169,14 +196,16 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_gas_sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/lato"
-                android:text="Kshs. 200"
+                android:text="Kshs. 0.00"
                 android:textColor="@color/text"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
 
         </LinearLayout>
@@ -187,7 +216,6 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/refill_bg"
-            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -200,14 +228,16 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_accessory_sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/lato"
-                android:text="Kshs. 200"
+                android:text="Kshs. 0.00"
                 android:textColor="@color/text"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
 
         </LinearLayout>
