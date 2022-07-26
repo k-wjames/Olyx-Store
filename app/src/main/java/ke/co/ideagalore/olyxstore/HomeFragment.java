@@ -16,14 +16,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
-import ke.co.ideagalore.olyxstore.models.TestItem;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -31,6 +32,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     ArrayList<SaleItem> saleItemArrayList, gasRefillArrayList, gasSaleArrayList, accessorySaleArrayList;
     TransactionsAdapter adapter;
+
+    String dateToday;
 
     SaleItem saleItem;
 
@@ -52,10 +55,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getTransactionsData();
 
         saleItemArrayList = new ArrayList<>();
-        gasRefillArrayList = new ArrayList<>();
-        gasSaleArrayList = new ArrayList<>();
-        accessorySaleArrayList = new ArrayList<>();
-        getTransactionsData();
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        dateToday = formatter.format(date);
 
         binding.cvSell.setOnClickListener(this);
         binding.cvTransactions.setOnClickListener(this);
@@ -90,8 +93,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getTransactionsData() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sales");
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sales");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -101,71 +104,48 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     saleItem = transactionSnapshot.getValue(SaleItem.class);
                     saleItemArrayList.add(saleItem);
 
-                    binding.tvTransactions.setText(saleItemArrayList.size() + "");
-
-                    if (saleItemArrayList.size() > 0) {
-
-                        int totalSales = 0;
-                        for (int i = 0; i < saleItemArrayList.size(); i++) {
-
-                            totalSales = +totalSales + saleItemArrayList.get(i).getTotalPrice();
-                            binding.tvSales.setText("Kshs. " + totalSales);
-                        }
-
-                        int refillSales = 0;
+                    for (int i = 0; i < saleItemArrayList.size(); i++) {
+                        int sales = 0;
+                        int gasRefillSales = 0;
                         int gasSales = 0;
                         int accessorySales = 0;
 
-                        for (int k = 0; k < saleItemArrayList.size(); k++) {
+                        for (SaleItem item : saleItemArrayList) {
+                            String date = saleItemArrayList.get(i).getDate();
 
-                            int price = saleItemArrayList.get(k).getTotalPrice();
-                            String saleType = saleItemArrayList.get(k).getSaleType();
-                            if (saleType.equals("Gas refill")) {
+                            if (date.equals(dateToday)) {
 
-                                saleItem = new SaleItem();
-                                saleItem.setTotalPrice(price);
-                                gasRefillArrayList.add(saleItem);
+                                int transactions = saleItemArrayList.size();
+                                binding.tvTransactions.setText(transactions + "");
 
-                                for (int j=0; j<gasRefillArrayList.size(); j++){
+                                sales = sales + item.getTotalPrice();
+                                binding.tvSales.setText("Kshs. " + sales);
+                            }
 
-                                    refillSales=+ refillSales +gasRefillArrayList.get(j).getTotalPrice();
-                                    binding.tvRefillSales.setText("Kshs. "+refillSales);
+                            if (item.getSaleType().equals("Gas refill") && date.equals(dateToday)) {
 
-                                }
-
-                            } else if (saleType.equals("Gas sale")) {
-
-                                saleItem = new SaleItem();
-                                saleItem.setTotalPrice(price);
-                                gasSaleArrayList.add(saleItem);
-
-                                for (int j=0; j<gasSaleArrayList.size(); j++){
-
-                                    gasSales=+ gasSales +gasSaleArrayList.get(j).getTotalPrice();
-                                    binding.tvGasSales.setText("Kshs. "+gasSales);
-
-                                }
-
-                            } else if (saleType.equals("Accessory sale")) {
-
-                                saleItem = new SaleItem();
-                                saleItem.setTotalPrice(price);
-                                accessorySaleArrayList.add(saleItem);
-
-                                for (int j=0; j<accessorySaleArrayList.size(); j++){
-
-                                    accessorySales=+ accessorySales +accessorySaleArrayList.get(j).getTotalPrice();
-                                    binding.tvAccessorySales.setText("Kshs. "+accessorySales);
-
-                                }
+                                gasRefillSales = gasRefillSales + item.getTotalPrice();
+                                binding.tvRefillSales.setText("Kshs. " + gasRefillSales);
 
                             }
 
+                            if (item.getSaleType().equals("Gas sale") && date.equals(dateToday)) {
+
+                                gasSales = gasSales + item.getTotalPrice();
+                                binding.tvGasSales.setText("Kshs. " + gasSales);
+
+                            }
+
+                            if (item.getSaleType().equals("Accessory sale") && date.equals(dateToday)) {
+
+                                accessorySales = accessorySales + item.getTotalPrice();
+                                binding.tvAccessorySales.setText("Kshs. " + accessorySales);
+
+                            }
                         }
-
                     }
-                }
 
+                }
 
             }
 
@@ -174,6 +154,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
     }
 
 }
