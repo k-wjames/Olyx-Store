@@ -86,20 +86,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         binding.llBuyAccessory.setOnClickListener(this);
         binding.btnCheckOut.setOnClickListener(this);
 
-
-       /* binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchProduct(newText);
-                return true;
-            }
-        });*/
     }
 
     private void getCatalogueData() {
@@ -121,6 +107,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                         price = catalogueArrayList.get(i).getSellingPrice();
                         String category = catalogueArrayList.get(i).getCategory();
                         int buyingPrice = catalogueArrayList.get(i).getBuyingPrice();
+
 
                         testItem = new TestItem();
                         if (category.equals("Gas")) {
@@ -187,19 +174,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-    }
-
-    private void searchProduct(String item) {
-         /* ArrayList<Product> filteredList = new ArrayList<>();
-        for (Product object : productArrayList) {
-            if (object.getBrand().toLowerCase().contains(item.toLowerCase())) {
-                filteredList.add(object);
-            }
-        }
-      binding.rvStock.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.rvStock.setHasFixedSize(true);
-        adapter = new SellAdapter(getActivity(), filteredList);
-        binding.rvStock.setAdapter(adapter);*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
