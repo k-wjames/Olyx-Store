@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     tools:context=".StockFragment">
 
 
     <LinearLayout
         android:id="@+id/layer_one"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/accentTwo">
 
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/text" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tv_dash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="50dp"
             android:fontFamily="@font/lato"
             android:text="Stock"
-            android:textColor="@color/text"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -44,7 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/layer_one"
         android:orientation="horizontal"
-        android:layout_marginTop="15dp"
         android:padding="10dp">
 
         <TextView
@@ -61,20 +62,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
+            android:gravity="start"
             android:text="Description"
             android:textColor="@color/text"
-            android:textStyle="bold"
-            android:gravity="start"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
+            android:gravity="end"
             android:text="Available"
             android:textColor="@color/text"
-            android:textStyle="bold"
-            android:gravity="end"/>
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -107,7 +108,7 @@
         android:visibility="gone"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/empty_animation"/>
+        app:lottie_rawRes="@raw/empty_animation" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_stock"
@@ -115,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/view"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="5dp" />
 
 
 </RelativeLayout>

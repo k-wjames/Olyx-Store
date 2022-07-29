@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -86,6 +87,57 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         binding.llBuyAccessory.setOnClickListener(this);
         binding.btnCheckOut.setOnClickListener(this);
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onClick(View view) {
+        if (view == binding.llRefill) {
+            transactionType = "Gas refill";
+            refillGasDialog(transactionType);
+        } else if (view == binding.llBuyGas) {
+            transactionType = "Gas sale";
+            sellNewGasDialog(transactionType);
+
+        } else if (view == binding.llBuyAccessory) {
+            transactionType = "Accessory sale";
+            sellAnAccessoryDialog(transactionType);
+        } else if (view == binding.btnCheckOut) {
+            if (myTransactionArray.size() > 0) {
+
+                for (SaleItem item : myTransactionArray) {
+
+                    Dialog myDialog = new Dialog(getActivity());
+                    myDialog.setContentView(R.layout.progress_dialog);
+                    myDialog.setCanceledOnTouchOutside(false);
+                    myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    myDialog.show();
+
+                    String keys = item.getSaleId();
+                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Sales");
+                    myRef.child(keys).setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                myTransactionArray.clear();
+                                binding.tvTotalSpend.setText("0.00");
+                                myDialog.dismiss();
+                            }
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                }
+            }
+
+        } else {
+            Toast.makeText(getActivity(), "Empty cart", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getCatalogueData() {
@@ -174,49 +226,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onClick(View view) {
-        if (view == binding.llRefill) {
-            transactionType = "Gas refill";
-            refillGasDialog(transactionType);
-        } else if (view == binding.llBuyGas) {
-            transactionType = "Gas sale";
-            sellNewGasDialog(transactionType);
-
-        } else if (view == binding.llBuyAccessory) {
-            transactionType = "Accessory sale";
-            sellAnAccessoryDialog(transactionType);
-        } else if (view == binding.btnCheckOut) {
-
-            if (myTransactionArray.size() > 0) {
-
-                for (int b = 0; b < myTransactionArray.size(); b++) {
-                    newItem = myTransactionArray.get(b);
-                    String key = newItem.getSaleId();
-
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Sales");
-                    ref.child(key).setValue(newItem).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-
-                            if (task.isSuccessful()) {
-                                myTransactionArray.clear();
-                                binding.tvTotalSpend.setText("0.00");
-                                displayList();
-                            }
-
-                        }
-                    });
-
-                }
-            } else {
-                Toast.makeText(getActivity(), "Empty cart", Toast.LENGTH_SHORT).show();
-            }
-
-        }
     }
 
     private void refillGasDialog(String transType) {
@@ -454,7 +463,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             int totalShillings = 0;
             for (int i = 0; i < myTransactionArray.size(); i++) {
 
-                totalShillings =+ totalShillings + myTransactionArray.get(i).getTotalPrice();
+                totalShillings = +totalShillings + myTransactionArray.get(i).getTotalPrice();
                 binding.tvTotalSpend.setText(totalShillings + "");
             }
             displayList();

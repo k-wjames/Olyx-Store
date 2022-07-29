@@ -93,7 +93,7 @@ public class TransactionsFragment extends Fragment {
 
                             String date = item.getDate();
 
-                            if (date.equals("26/07/2022")) {
+                            if (date.equals(dateToday)) {
 
                                 displayList();
 
@@ -101,7 +101,6 @@ public class TransactionsFragment extends Fragment {
                         }
                     }
                 }
-
 
             }
 

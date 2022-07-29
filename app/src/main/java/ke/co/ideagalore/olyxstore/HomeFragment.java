@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
 
@@ -30,8 +30,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     FragmentHomeBinding binding;
 
-    ArrayList<SaleItem> saleItemArrayList, gasRefillArrayList, gasSaleArrayList, accessorySaleArrayList;
-    TransactionsAdapter adapter;
+    ArrayList<SaleItem> saleItemArrayList;
 
     String dateToday;
 
@@ -88,7 +87,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         } else if (view == binding.cvStock) {
             Navigation.findNavController(view).navigate(R.id.stockFragment);
         } else if (view == binding.cvOrders) {
-            Navigation.findNavController(view).navigate(R.id.ordersFragment);
+            //Navigation.findNavController(view).navigate(R.id.ordersFragment);
+            Toast.makeText(getActivity(), "Hold tight! This is coming very soon.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -125,21 +125,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             if (item.getSaleType().equals("Gas refill") && date.equals(dateToday)) {
 
                                 gasRefillSales = gasRefillSales + item.getTotalPrice();
-                                binding.tvRefillSales.setText("Kshs. " + gasRefillSales);
+                                binding.tvRefillSales.setText("Kshs. "+ gasRefillSales);
 
                             }
 
                             if (item.getSaleType().equals("Gas sale") && date.equals(dateToday)) {
 
                                 gasSales = gasSales + item.getTotalPrice();
-                                binding.tvGasSales.setText("Kshs. " + gasSales);
+                                binding.tvGasSales.setText("Kshs. "+gasSales);
 
                             }
 
                             if (item.getSaleType().equals("Accessory sale") && date.equals(dateToday)) {
 
                                 accessorySales = accessorySales + item.getTotalPrice();
-                                binding.tvAccessorySales.setText("Kshs. " + accessorySales);
+                                binding.tvAccessorySales.setText("Kshs. "+accessorySales);
 
                             }
                         }

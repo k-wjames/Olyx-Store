@@ -176,7 +176,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="70dp"/>
 
     <View
         android:id="@+id/view_two"
@@ -190,8 +191,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="50dp"
+        android:paddingTop="10dp"
         android:background="@color/background">
 
         <TextView

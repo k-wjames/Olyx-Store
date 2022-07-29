@@ -35,4 +35,9 @@
         android:name="ke.co.ideagalore.olyxstore.CheckoutFragment"
         android:label="fragment_checkout"
         tools:layout="@layout/fragment_checkout" />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="ke.co.ideagalore.olyxstore.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>
