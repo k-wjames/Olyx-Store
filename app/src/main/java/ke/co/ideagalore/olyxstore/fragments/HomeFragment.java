@@ -1,4 +1,4 @@
-package ke.co.ideagalore.olyxstore;
+package ke.co.ideagalore.olyxstore.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
 

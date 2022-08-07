@@ -1,4 +1,4 @@
-package ke.co.ideagalore.olyxstore;
+package ke.co.ideagalore.olyxstore.fragments;
 
 import android.app.Dialog;
 import android.os.Build;
@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.SaleAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
 import ke.co.ideagalore.olyxstore.models.Catalogue;
@@ -54,7 +55,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     String transactionType, selectedItem, dateToday;
 
-    SaleItem saleItem, newItem;
+    SaleItem saleItem;
 
     Dialog dialog;
 

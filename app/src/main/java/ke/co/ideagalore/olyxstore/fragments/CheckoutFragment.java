@@ -1,4 +1,4 @@
-package ke.co.ideagalore.olyxstore;
+package ke.co.ideagalore.olyxstore.fragments;
 
 import android.os.Bundle;
 
@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.databinding.FragmentCheckoutBinding;
 import ke.co.ideagalore.olyxstore.models.Sale;
 
