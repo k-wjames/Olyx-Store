@@ -244,7 +244,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
         Spinner spinner = dialog.findViewById(R.id.spinner_product);
 
-        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<TestItem>(getActivity(), android.R.layout.simple_spinner_item, myGasRefillArray);
+        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, myGasRefillArray);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -325,7 +325,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
         Spinner spinner = dialog.findViewById(R.id.spinner_product);
 
-        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<TestItem>(getActivity(), android.R.layout.simple_spinner_item, myGasArray);
+        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, myGasArray);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
