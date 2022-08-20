@@ -19,10 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -87,6 +87,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         binding.llBuyGas.setOnClickListener(this);
         binding.llBuyAccessory.setOnClickListener(this);
         binding.btnCheckOut.setOnClickListener(this);
+        binding.ivBack.setOnClickListener(this);
+        binding.ivBack.setOnClickListener(this);
 
     }
 
@@ -127,17 +129,18 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                             }
 
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    }).addOnFailureListener(e -> {
 
-                        }
                     });
                 }
+            } else {
+                Toast.makeText(getActivity(), "Empty cart", Toast.LENGTH_SHORT).show();
             }
 
         } else {
-            Toast.makeText(getActivity(), "Empty cart", Toast.LENGTH_SHORT).show();
+
+            Navigation.findNavController(view).navigate(R.id.homeFragment);
+
         }
     }
 
@@ -199,15 +202,15 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot catalogueSnapshot : snapshot.getChildren()) {
-                    Catalogue catalogue = catalogueSnapshot.getValue(Catalogue.class);
+                    TestItem catalogue = catalogueSnapshot.getValue(TestItem.class);
 
-                    ArrayList<Catalogue> catalogueArrayList = new ArrayList<>();
+                    ArrayList<TestItem> catalogueArrayList = new ArrayList<>();
                     catalogueArrayList.add(catalogue);
 
                     for (int i = 0; i < catalogueArrayList.size(); i++) {
 
                         String prod = catalogueArrayList.get(i).getProduct();
-                        price = catalogueArrayList.get(i).getSellingPrice();
+                        price = catalogueArrayList.get(i).getMarkedPrice();
                         int buyingPrice = catalogueArrayList.get(i).getBuyingPrice();
 
                         testItem = new TestItem();
@@ -251,6 +254,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedItem = spinner.getSelectedItem().toString();
+
                 TestItem item = (TestItem) spinner.getSelectedItem();
                 markedPrice = item.getMarkedPrice();
                 buyingPrice = item.getBuyingPrice();
@@ -304,6 +308,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
                 totalShillings = +totalShillings + myTransactionArray.get(i).getTotalPrice();
                 binding.tvTotalSpend.setText(totalShillings + "");
+
             }
             displayList();
 

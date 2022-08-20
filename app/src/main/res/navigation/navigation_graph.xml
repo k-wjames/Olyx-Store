@@ -40,4 +40,9 @@
         android:name="ke.co.ideagalore.olyxstore.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/expenditureFragment"
+        android:name="ke.co.ideagalore.olyxstore.fragments.ExpenditureFragment"
+        android:label="fragment_expenditure"
+        tools:layout="@layout/fragment_expenditure" />
 </navigation>

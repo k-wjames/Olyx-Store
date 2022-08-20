@@ -41,11 +41,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     public void onBindViewHolder(@NonNull TransactionsAdapter.ViewHolder holder, int position) {
 
         saleItem=saleItemArrayList.get(position);
-        holder.product.setText(saleItem.getProduct());
+        holder.product.setText(saleItem.getProduct()+" *"+saleItem.getQuantity());
         holder.transactionType.setText(saleItem.getSaleType());
-        holder.quantity.setText(saleItem.getQuantity()+"");
-        holder.price.setText(saleItem.getTotalPrice()+"");
-        holder.time.setText(saleItem.getTime());
+        holder.price.setText("Price KES "+saleItem.getTotalPrice());
+        holder.time.setText(saleItem.getDate()+" "+saleItem.getTime());
     }
 
     @Override
@@ -55,12 +54,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView product, transactionType, quantity, price, time;
+        TextView product, transactionType,price, time;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             product= itemView.findViewById(R.id.tv_product);
             transactionType=itemView.findViewById(R.id.tv_transaction_type);
-            quantity=itemView.findViewById(R.id.tv_quantity);
             price=itemView.findViewById(R.id.tv_price);
             time=itemView.findViewById(R.id.tv_time);
         }

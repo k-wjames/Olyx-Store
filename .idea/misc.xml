@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/drawable-v24/ic_add.xml" value="0.222" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/drawable-v24/progress.xml" value="0.222" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/drawable/ic_back.xml" value="0.2055" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/drawable/ic_person.xml" value="0.2055" />
@@ -17,9 +18,12 @@
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/font/lato.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/activity_home.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/activity_splash.xml" value="0.22" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/add_expense_dialog.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/buy_gas_dialog.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/expense_item.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_checkout.xml" value="0.29322916666666665" />
-        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_expenditure.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_orders.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_sell.xml" value="0.22" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_stock.xml" value="0.29322916666666665" />
@@ -27,6 +31,7 @@
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_transactions.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/product_item.xml" value="0.2405982905982906" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/progress_dialog.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/recent_sales_item.xml" value="0.2921875" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/refill_dialog.xml" value="0.22" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/sales_item.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/sell_accessory_dialog.xml" value="0.29322916666666665" />

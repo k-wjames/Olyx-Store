@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,11 +22,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentTransactionsBinding;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
 
-public class TransactionsFragment extends Fragment {
+public class TransactionsFragment extends Fragment implements View.OnClickListener {
 
     FragmentTransactionsBinding binding;
     ArrayList<SaleItem> saleItemArrayList;
@@ -56,7 +58,7 @@ public class TransactionsFragment extends Fragment {
         dateToday = formatter.format(date);
         getTransactionsData();
 
-         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
@@ -69,6 +71,8 @@ public class TransactionsFragment extends Fragment {
                 return true;
             }
         });
+
+        binding.ivBack.setOnClickListener(this);
     }
 
     private void getTransactionsData() {
@@ -130,5 +134,10 @@ public class TransactionsFragment extends Fragment {
         binding.rvTransactions.setHasFixedSize(true);
         adapter = new TransactionsAdapter(getActivity(), filteredList);
         binding.rvTransactions.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Navigation.findNavController(view).navigate(R.id.homeFragment);
     }
 }

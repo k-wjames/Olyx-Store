@@ -61,6 +61,7 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener{
         }
 
         binding.btnCheckOut.setOnClickListener(this);
+        binding.ivBack.setOnClickListener(this);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener{
 
                 }
             });
-        }
+        }else Navigation.findNavController(view).navigate(R.id.homeFragment);
 
     }
 }

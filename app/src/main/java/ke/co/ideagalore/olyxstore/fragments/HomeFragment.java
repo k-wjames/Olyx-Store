@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,10 +21,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import ke.co.ideagalore.olyxstore.R;
+import ke.co.ideagalore.olyxstore.adapters.RecentSalesAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
+import ke.co.ideagalore.olyxstore.models.Expense;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -33,9 +36,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     ArrayList<SaleItem> saleItemArrayList;
 
+    List<Expense> expenseList = new ArrayList<>();
+
     String dateToday;
 
     SaleItem saleItem;
+
+    Expense expense;
 
     public HomeFragment() {
     }
@@ -53,6 +60,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         getCurrentDate();
         getTransactionsData();
+        getExpenditureData();
 
         saleItemArrayList = new ArrayList<>();
 
@@ -62,9 +70,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         binding.cvSell.setOnClickListener(this);
         binding.cvTransactions.setOnClickListener(this);
-        binding.cvStock.setOnClickListener(this);
-        binding.cvOrders.setOnClickListener(this);
+        binding.cvExpenditure.setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View view) {
+        if (view == binding.cvSell) {
+            Navigation.findNavController(view).navigate(R.id.sellFragment);
+        } else if (view == binding.cvTransactions) {
+            Navigation.findNavController(view).navigate(R.id.transactionsFragment);
+        } else if (view == binding.cvExpenditure) {
+            Navigation.findNavController(view).navigate(R.id.expenditureFragment);
+        }
+    }
+
 
     private void getCurrentDate() {
         Calendar calendar = Calendar.getInstance();
@@ -79,20 +98,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == binding.cvSell) {
-            Navigation.findNavController(view).navigate(R.id.sellFragment);
-        } else if (view == binding.cvTransactions) {
-            Navigation.findNavController(view).navigate(R.id.transactionsFragment);
-        } else if (view == binding.cvStock) {
-            Navigation.findNavController(view).navigate(R.id.stockFragment);
-        } else if (view == binding.cvOrders) {
-            //Navigation.findNavController(view).navigate(R.id.ordersFragment);
-            Toast.makeText(getActivity(), "Hold tight! This is coming very soon.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void getTransactionsData() {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sales");
@@ -103,46 +108,52 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 for (DataSnapshot transactionSnapshot : snapshot.getChildren()) {
 
                     saleItem = transactionSnapshot.getValue(SaleItem.class);
-                    saleItemArrayList.add(saleItem);
+                    saleItemArrayList.add(0,saleItem);
 
-                    for (int i = 0; i < saleItemArrayList.size(); i++) {
-                        int sales = 0;
-                        int gasRefillSales = 0;
-                        int gasSales = 0;
-                        int accessorySales = 0;
+                    int sales = 0;
+                    int gasRefillSales = 0;
+                    int gasSales = 0;
+                    int accessorySales = 0;
 
-                        for (SaleItem item : saleItemArrayList) {
-                            String date = saleItemArrayList.get(i).getDate();
+                    List<SaleItem>soldItems=new ArrayList<>();
 
-                            if (date.equals(dateToday)) {
+                    for (SaleItem item : saleItemArrayList) {
+                        String date = item.getDate();
 
-                                int transactions = saleItemArrayList.size();
-                                binding.tvTransactions.setText(transactions + "");
+                        if (date.equals(dateToday)) {
 
-                                sales = sales + item.getTotalPrice();
-                                binding.tvSales.setText("Kshs. " + sales);
-                            }
+                            soldItems.add(item);
 
-                            if (item.getSaleType().equals("Gas refill") && date.equals(dateToday)) {
+                            int transactions = soldItems.size();
+                            binding.tvTransactions.setText(transactions + "");
+
+                            displayList(soldItems);
+
+
+                            sales = sales + item.getTotalPrice();
+                            binding.tvSales.setText("KES " + sales);
+
+                            if (item.getSaleType().equals("Gas refill")) {
 
                                 gasRefillSales = gasRefillSales + item.getTotalPrice();
-                                binding.tvRefillSales.setText("Kshs. "+ gasRefillSales);
+                                binding.tvRefillSales.setText("KES " + gasRefillSales);
 
                             }
 
-                            if (item.getSaleType().equals("Gas sale") && date.equals(dateToday)) {
+                            if (item.getSaleType().equals("Gas sale")) {
 
                                 gasSales = gasSales + item.getTotalPrice();
-                                binding.tvGasSales.setText("Kshs. "+gasSales);
+                                binding.tvGasSales.setText("KES " + gasSales);
 
                             }
 
-                            if (item.getSaleType().equals("Accessory sale") && date.equals(dateToday)) {
+                            if (item.getSaleType().equals("Accessory sale")) {
 
                                 accessorySales = accessorySales + item.getTotalPrice();
-                                binding.tvAccessorySales.setText("Kshs. "+accessorySales);
+                                binding.tvAccessorySales.setText("KES " + accessorySales);
 
                             }
+
                         }
                     }
 
@@ -158,4 +169,57 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    private void getExpenditureData() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Expenditure");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                expenseList.clear();
+                for (DataSnapshot transactionSnapshot : snapshot.getChildren()) {
+
+                    expense = transactionSnapshot.getValue(Expense.class);
+                    expenseList.add(expense);
+
+                    for (int i = 0; i < expenseList.size(); i++) {
+                        int expenditure = 0;
+
+                        for (Expense item : expenseList) {
+                            String date = item.getDate();
+
+                            if (date.equals(dateToday)) {
+                                List<Expense> daysExpense = new ArrayList<>();
+                                daysExpense.add(item);
+
+                                for (int z = 0; z < daysExpense.size(); z++) {
+
+                                    expenditure = expenditure + daysExpense.get(z).getPrice();
+                                    binding.tvExpenditure.setText("KES " + expenditure);
+
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void displayList(List<SaleItem> list) {
+        binding.rvTransactions.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvTransactions.setHasFixedSize(true);
+        RecentSalesAdapter adapter = new RecentSalesAdapter(list);
+        binding.rvTransactions.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        binding.cvRecentTransactions.setVisibility(View.VISIBLE);
+    }
 }
