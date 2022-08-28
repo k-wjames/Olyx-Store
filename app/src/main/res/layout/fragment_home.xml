@@ -345,7 +345,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/lato"
-                    android:text="Transactions"
+                    android:text="Credit"
                     android:textColor="@color/text" />
 
             </LinearLayout>
@@ -408,16 +408,33 @@
         android:layout_marginBottom="60dp"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cv_dash"
+            android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cv_dash"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/lato"
             android:text="Recent Transactions"
             android:textColor="@color/text"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/tv_all_transactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:fontFamily="@font/lato"
+                android:text="See all"
+                android:textColor="@color/accentTwo"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

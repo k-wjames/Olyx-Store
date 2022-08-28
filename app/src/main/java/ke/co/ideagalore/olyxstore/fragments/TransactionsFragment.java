@@ -87,22 +87,13 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
                 for (DataSnapshot transactionSnapshot : snapshot.getChildren()) {
 
                     saleItem = transactionSnapshot.getValue(SaleItem.class);
-                    saleItemArrayList.add(saleItem);
+                    saleItemArrayList.add(0,saleItem);
 
-                    if (saleItemArrayList.size() < 1) {
+                    if (saleItemArrayList.size() ==0) {
                         binding.animationView.setVisibility(View.VISIBLE);
                     } else {
 
-                        for (SaleItem item : saleItemArrayList) {
-
-                            String date = item.getDate();
-
-                            if (date.equals(dateToday)) {
-
-                                displayList();
-
-                            }
-                        }
+                        displayList();
                     }
                 }
 

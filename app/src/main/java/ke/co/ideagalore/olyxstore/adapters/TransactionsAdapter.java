@@ -7,10 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
@@ -18,7 +19,7 @@ import ke.co.ideagalore.olyxstore.models.SaleItem;
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<SaleItem>saleItemArrayList;
+    ArrayList<SaleItem> saleItemArrayList;
 
     SaleItem saleItem;
 
@@ -33,18 +34,23 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     @NonNull
     @Override
     public TransactionsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.transaction_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.transaction_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TransactionsAdapter.ViewHolder holder, int position) {
 
-        saleItem=saleItemArrayList.get(position);
-        holder.product.setText(saleItem.getProduct()+" *"+saleItem.getQuantity());
+        saleItem = saleItemArrayList.get(position);
+        holder.product.setText(saleItem.getProduct() + " *" + saleItem.getQuantity());
         holder.transactionType.setText(saleItem.getSaleType());
-        holder.price.setText("Price KES "+saleItem.getTotalPrice());
-        holder.time.setText(saleItem.getDate()+" "+saleItem.getTime());
+        holder.price.setText("Price KES " + saleItem.getTotalPrice());
+
+        if (getDate().equals(saleItem.getDate())) {
+            holder.time.setText(saleItem.getTime());
+        } else {
+            holder.time.setText(saleItem.getDate() + " " + saleItem.getTime());
+        }
     }
 
     @Override
@@ -54,13 +60,23 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView product, transactionType,price, time;
+        TextView product, transactionType, price, time;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            product= itemView.findViewById(R.id.tv_product);
-            transactionType=itemView.findViewById(R.id.tv_transaction_type);
-            price=itemView.findViewById(R.id.tv_price);
-            time=itemView.findViewById(R.id.tv_time);
+            product = itemView.findViewById(R.id.tv_product);
+            transactionType = itemView.findViewById(R.id.tv_transaction_type);
+            price = itemView.findViewById(R.id.tv_price);
+            time = itemView.findViewById(R.id.tv_time);
         }
+    }
+
+    String getDate() {
+        String dateString;
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        dateString = formatter.format(date);
+        return dateString;
+
     }
 }

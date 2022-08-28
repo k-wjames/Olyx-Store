@@ -160,7 +160,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layer_titles"
         android:layout_margin="5dp"
-
         android:layout_weight="1"
         app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="5dp"
