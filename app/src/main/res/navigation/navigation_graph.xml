@@ -35,14 +35,15 @@
         android:name="ke.co.ideagalore.olyxstore.fragments.CheckoutFragment"
         android:label="fragment_checkout"
         tools:layout="@layout/fragment_checkout" />
-    <fragment
-        android:id="@+id/testFragment"
-        android:name="ke.co.ideagalore.olyxstore.TestFragment"
-        android:label="fragment_test"
-        tools:layout="@layout/fragment_test" />
+
     <fragment
         android:id="@+id/expenditureFragment"
         android:name="ke.co.ideagalore.olyxstore.fragments.ExpenditureFragment"
         android:label="fragment_expenditure"
         tools:layout="@layout/fragment_expenditure" />
+    <fragment
+        android:id="@+id/creditFragment"
+        android:name="ke.co.ideagalore.olyxstore.fragments.CreditFragment"
+        android:label="fragment_credit"
+        tools:layout="@layout/fragment_credit" />
 </navigation>

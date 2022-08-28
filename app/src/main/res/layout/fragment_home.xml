@@ -311,12 +311,12 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_transactions"
+            android:id="@+id/cv_credit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="@color/accentOne"
+            app:cardBackgroundColor="@color/accent"
             app:cardCornerRadius="5dp"
             app:cardElevation="3dp">
 
@@ -333,8 +333,8 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/icon_transactions_background"
-                    android:src="@drawable/ic_transactions"
+                    android:background="@drawable/icon_creditors_background"
+                    android:src="@drawable/ic_credit"
                     app:tint="@color/white" />
 
                 <TextView

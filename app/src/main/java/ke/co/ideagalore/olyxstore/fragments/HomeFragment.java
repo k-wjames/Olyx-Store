@@ -69,18 +69,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         dateToday = formatter.format(date);
 
         binding.cvSell.setOnClickListener(this);
-        binding.cvTransactions.setOnClickListener(this);
+        binding.cvCredit.setOnClickListener(this);
         binding.cvExpenditure.setOnClickListener(this);
+        binding.tvAllTransactions.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view == binding.cvSell) {
             Navigation.findNavController(view).navigate(R.id.sellFragment);
-        } else if (view == binding.cvTransactions) {
+        } else if (view == binding.tvAllTransactions) {
             Navigation.findNavController(view).navigate(R.id.transactionsFragment);
         } else if (view == binding.cvExpenditure) {
             Navigation.findNavController(view).navigate(R.id.expenditureFragment);
+        }else {
+            Navigation.findNavController(view).navigate(R.id.creditFragment);
         }
     }
 
