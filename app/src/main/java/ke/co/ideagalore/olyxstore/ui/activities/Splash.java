@@ -1,12 +1,12 @@
-package ke.co.ideagalore.olyxstore;
-
-import androidx.appcompat.app.AppCompatActivity;
+package ke.co.ideagalore.olyxstore.ui.activities;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ke.co.ideagalore.olyxstore.databinding.ActivitySplashBinding;
 
@@ -24,7 +24,7 @@ public class Splash extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
-        binding=ActivitySplashBinding.inflate(getLayoutInflater());
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         new Handler().postDelayed(() -> {

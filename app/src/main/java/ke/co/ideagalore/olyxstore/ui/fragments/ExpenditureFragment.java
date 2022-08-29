@@ -1,4 +1,4 @@
-package ke.co.ideagalore.olyxstore.fragments;
+package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;

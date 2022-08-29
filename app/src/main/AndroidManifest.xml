@@ -14,10 +14,10 @@
         android:theme="@style/Theme.OlyxStore"
         tools:targetApi="31">
         <activity
-            android:name=".Home"
+            android:name=".ui.activities.Home"
             android:exported="false" />
         <activity
-            android:name=".Splash"
+            android:name=".ui.activities.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

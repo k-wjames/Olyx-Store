@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".fragments.OrdersFragment">
+    tools:context=".ui.fragments.OrdersFragment">
 
     <LinearLayout
         android:id="@+id/layer_one"

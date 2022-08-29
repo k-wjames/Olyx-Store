@@ -1,4 +1,4 @@
-package ke.co.ideagalore.olyxstore;
+package ke.co.ideagalore.olyxstore.utils;
 
 import android.widget.EditText;
 import android.widget.Toast;

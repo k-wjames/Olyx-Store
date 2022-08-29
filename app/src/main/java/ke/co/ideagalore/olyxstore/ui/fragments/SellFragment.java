@@ -1,6 +1,7 @@
-package ke.co.ideagalore.olyxstore.fragments;
+package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import android.app.Dialog;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,14 +23,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
 import ke.co.ideagalore.olyxstore.models.Catalogue;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
 import ke.co.ideagalore.olyxstore.models.TestItem;
+import ke.co.ideagalore.olyxstore.utils.Dialogs;
 
 public class SellFragment extends Fragment implements View.OnClickListener {
 
@@ -59,6 +60,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     Dialog dialog;
 
+    Dialogs dialogs;
+
     public SellFragment() {
     }
 
@@ -72,6 +75,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         myGasArray = new ArrayList<>();
         myAccessoriesArray = new ArrayList<>();
         myGasRefillArray = new ArrayList<>();
@@ -108,30 +112,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         } else if (view == binding.btnCheckOut) {
             if (myTransactionArray.size() > 0) {
 
-                for (SaleItem item : myTransactionArray) {
+                for (int i = 0; i < myTransactionArray.size(); i++) {
 
-                    Dialog myDialog = new Dialog(getActivity());
-                    myDialog.setContentView(R.layout.progress_dialog);
-                    myDialog.setCanceledOnTouchOutside(false);
-                    myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                    myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    myDialog.show();
-
-                    String keys = item.getSaleId();
-                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Sales");
-                    myRef.child(keys).setValue(item).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                myTransactionArray.clear();
-                                binding.tvTotalSpend.setText("0.00");
-                                myDialog.dismiss();
-                            }
-
-                        }
-                    }).addOnFailureListener(e -> {
-
-                    });
+                    SaleItem item = myTransactionArray.get(i);
+                    CommitNewTransaction commitNewTransaction = new CommitNewTransaction(this);
+                    commitNewTransaction.execute(item);
                 }
             } else {
                 Toast.makeText(getActivity(), "Empty cart", Toast.LENGTH_SHORT).show();
@@ -476,6 +461,51 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
         });
     }
+
+    private static class CommitNewTransaction extends AsyncTask<SaleItem, Void, Void> {
+
+        Dialogs dialogs = new Dialogs();
+        private WeakReference<SellFragment> weakReference;
+
+        CommitNewTransaction(SellFragment fragment) {
+            weakReference = new WeakReference<>(fragment);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            SellFragment fragment = weakReference.get();
+            if (fragment == null || fragment.isRemoving()) return;
+            dialogs.showProgressDialog(fragment.getActivity(), fragment.getResources().getString(R.string.transaction_in_progress));
+        }
+
+        @Override
+        protected Void doInBackground(SaleItem... saleItems) {
+            for (int i = 0; i < saleItems.length; i++) {
+
+                SaleItem saleItem = saleItems[i];
+                String key = saleItems[i].getSaleId();
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Sales");
+                myRef.child(key).setValue(saleItem);
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+
+            SellFragment fragment = weakReference.get();
+            if (fragment == null || fragment.isRemoving()) return;
+
+            dialogs.dismissProgressDialog();
+            fragment.myTransactionArray.clear();
+            fragment.binding.tvTotalSpend.setText("0.00");
+        }
+    }
+
 
     private void displayList() {
         binding.rvSales.setLayoutManager(new LinearLayoutManager(getActivity()));

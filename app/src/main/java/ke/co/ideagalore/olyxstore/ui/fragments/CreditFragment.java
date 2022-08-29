@@ -1,4 +1,4 @@
-package ke.co.ideagalore.olyxstore.fragments;
+package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import ke.co.ideagalore.olyxstore.R;
-import ke.co.ideagalore.olyxstore.Utilities;
+import ke.co.ideagalore.olyxstore.utils.Utilities;
 import ke.co.ideagalore.olyxstore.adapters.CreditAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentCreditBinding;
 import ke.co.ideagalore.olyxstore.models.Credit;
