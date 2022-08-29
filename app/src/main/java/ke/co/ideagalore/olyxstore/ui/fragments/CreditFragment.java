@@ -99,7 +99,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
     private void searchProduct(String item) {
         ArrayList<Credit> filteredList = new ArrayList<>();
         for (Credit object : creditList) {
-            if (object.getName().toLowerCase().contains(item.toLowerCase())) {
+            if (object.getPhone().toLowerCase().contains(item.toLowerCase())) {
                 filteredList.add(object);
             }
         }
