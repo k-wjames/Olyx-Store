@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/accentThree"
         android:id="@+id/layer_main"
         android:orientation="vertical">
 
@@ -29,7 +28,7 @@
                 android:layout_height="24dp"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_back"
-                app:tint="@color/white" />
+                app:tint="@color/text" />
 
             <TextView
                 android:id="@+id/tv_dash"
@@ -38,7 +37,7 @@
                 android:layout_marginLeft="5dp"
                 android:fontFamily="@font/lato"
                 android:text="Expenditure"
-                android:textColor="@color/white"
+                android:textColor="@color/text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -52,7 +51,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="14dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="8dp">
 

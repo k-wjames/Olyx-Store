@@ -223,6 +223,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         RecentSalesAdapter adapter = new RecentSalesAdapter(list);
         binding.rvTransactions.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        binding.cvRecentTransactions.setVisibility(View.VISIBLE);
+        //binding.cvRecentTransactions.setVisibility(View.VISIBLE);
     }
 }

@@ -3,5 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transaction_in_progress">Transaction in progress...</string>
+    <string name="debtors">Debtors</string>
+    <string name="add">add</string>
+    <string name="total_credit_balance">Total credit balance</string>
 
 </resources>

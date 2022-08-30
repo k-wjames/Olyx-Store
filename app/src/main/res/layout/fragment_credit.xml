@@ -11,14 +11,13 @@
         android:id="@+id/layer_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/accent"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/layer_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -27,18 +26,18 @@
                 android:id="@+id/iv_back"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:src="@drawable/ic_back"
-                app:tint="@color/white" />
+                app:tint="@color/text" />
 
             <TextView
                 android:id="@+id/tv_dash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/lato"
-                android:text="Creditors"
-                android:textColor="@color/white"
+                android:text="@string/debtors"
+                android:textColor="@color/text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -48,11 +47,10 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layer_one"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="14dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="8dp">
 
@@ -105,11 +103,11 @@
         android:id="@+id/fab_credit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="40dp"
-        android:contentDescription="add"
+        android:contentDescription="@string/add"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/accent"
         app:tint="@color/white" />

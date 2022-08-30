@@ -180,6 +180,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
                 credit.setName(name.getText().toString().trim());
                 credit.setPhone(phone.getText().toString().trim());
 
+                assert key != null;
                 reference.child(key).setValue(credit).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         myDialog.dismiss();
