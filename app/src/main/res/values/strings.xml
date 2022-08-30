@@ -6,5 +6,17 @@
     <string name="debtors">Debtors</string>
     <string name="add">add</string>
     <string name="total_credit_balance">Total credit balance</string>
+    <string name="debt">Debt</string>
+    <string name="transact">Transact</string>
+    <string name="expenses">Expenses</string>
+    <string name="gas_refill">Gas refill</string>
+    <string name="cylinder_sales">Cylinder sales</string>
+    <string name="accessories">Accessories</string>
+    <string name="see_all">See all</string>
+    <string name="total_expenditure">Total expenditure</string>
+    <string name="total_sales">Total sales</string>
+    <string name="transactions_today">Transactions today</string>
+    <string name="sample_date">17 July 2022</string>
+    <string name="olyx_gas">Olyx Gas</string>
 
 </resources>

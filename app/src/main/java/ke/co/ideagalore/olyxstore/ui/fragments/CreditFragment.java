@@ -1,6 +1,13 @@
 package ke.co.ideagalore.olyxstore.ui.fragments;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -132,7 +140,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
     }
 
     private void displayData(List<Credit> creditList) {
-        CreditAdapter adapter = new CreditAdapter(creditList);
+        CreditAdapter adapter = new CreditAdapter(creditList, getActivity());
         binding.rvCreditors.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvCreditors.setHasFixedSize(true);
         binding.rvCreditors.setAdapter(adapter);
@@ -194,4 +202,5 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
 }

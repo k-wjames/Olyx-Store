@@ -14,7 +14,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="55dp"
         android:fontFamily="@font/lato"
-        android:text="Olyx Gas"
+        android:text="@string/olyx_gas"
         android:textColor="@color/text"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:fontFamily="@font/lato"
-                    android:text="17 July 2022"
+                    android:text="@string/sample_date"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -74,14 +74,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/lato"
-                    android:text="Transactions today"
+                    android:text="@string/transactions_today"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_transactions"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:fontFamily="@font/lato"
                     android:text="0.00"
                     android:textColor="@color/white"
@@ -100,14 +100,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/lato"
-                    android:text="Total sales"
+                    android:text="@string/total_sales"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_sales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:fontFamily="@font/lato"
                     android:text="KES 0.00"
                     android:textColor="@color/white"
@@ -126,14 +126,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/lato"
-                    android:text="Total expenditure"
+                    android:text="@string/total_expenditure"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_expenditure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:fontFamily="@font/lato"
                     android:text="KES 0.00"
                     android:textColor="@color/white"
@@ -180,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato"
-                android:text="Gas refill"
+                android:text="@string/gas_refill"
                 android:textColor="@color/text"
                 android:textStyle="bold" />
 
@@ -210,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato"
-                android:text="Cylinder sales"
+                android:text="@string/cylinder_sales"
                 android:textColor="@color/text"
                 android:textStyle="bold" />
 
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato"
-                android:text="Accessories"
+                android:text="@string/accessories"
                 android:textColor="@color/text"
                 android:textStyle="bold" />
 
@@ -303,7 +303,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/lato"
-                    android:text="Transact"
+                    android:text="@string/transact"
                     android:textColor="@color/text" />
 
             </LinearLayout>
@@ -345,7 +345,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/lato"
-                    android:text="Credit"
+                    android:text="@string/debt"
                     android:textColor="@color/text" />
 
             </LinearLayout>
@@ -382,12 +382,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout"
-                    android:layout_centerInParent="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/lato"
-                    android:text="Expenses"
+                    android:text="@string/expenses"
                     android:textColor="@color/text" />
 
             </LinearLayout>
@@ -427,10 +425,10 @@
                 android:id="@+id/tv_all_transactions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="5dp"
                 android:fontFamily="@font/lato"
-                android:text="See all"
+                android:text="@string/see_all"
                 android:textColor="@color/accentTwo"
                 android:textStyle="bold" />
 
@@ -441,25 +439,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp" />
-
-       <!-- <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            app:cardBackgroundColor="@color/background"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="3dp"
-            app:cardUseCompatPadding="true"
-            android:id="@+id/cv_recent_transactions"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_transactions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
-
-        </androidx.cardview.widget.CardView>-->
 
     </LinearLayout>
 

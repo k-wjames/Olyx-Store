@@ -79,22 +79,34 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp">
 
+            <TextView
+                android:id="@+id/tv_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/lato"
+                android:textColor="@color/text"
+                android:layout_toLeftOf="@+id/iv_call"/>
+
             <ImageView
                 android:id="@+id/iv_call"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/iv_sms"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="20dp"
                 android:src="@drawable/ic_call"
-                app:tint="@color/accent" />
-
-            <ImageView
-                android:id="@+id/iv_sms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="40dp"
-                android:src="@drawable/ic_sms"
-                app:tint="@color/accent" />
+                app:tint="@color/accent"
+                android:layout_alignParentEnd="true"/>
+            <!--
+                        <ImageView
+                            android:id="@+id/iv_sms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="40dp"
+                            android:src="@drawable/ic_sms"
+                            app:tint="@color/accent" />-->
 
         </RelativeLayout>
 
