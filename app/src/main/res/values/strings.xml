@@ -18,5 +18,7 @@
     <string name="transactions_today">Transactions today</string>
     <string name="sample_date">17 July 2022</string>
     <string name="olyx_gas">Olyx Gas</string>
+    <string name="expenditure">Expenditure</string>
+    <string name="search_hint">Search...</string>
 
 </resources>
