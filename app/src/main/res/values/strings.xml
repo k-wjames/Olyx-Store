@@ -20,5 +20,18 @@
     <string name="olyx_gas">Olyx Gas</string>
     <string name="expenditure">Expenditure</string>
     <string name="search_hint">Search...</string>
+    <string name="orders">Orders</string>
+    <string name="sell_gas">Sell gas</string>
+    <string name="sell_accessory">Sell accessory</string>
+    <string name="item">Item</string>
+    <string name="quantity">Quantity</string>
+    <string name="total_in_kes">Total in KES</string>
+    <string name="total_spend_kes">Total spend (KES.)</string>
+    <string name="_0_00">0.00</string>
+    <string name="check_out">Check out</string>
+    <string name="back">back</string>
+    <string name="stock">Stock</string>
+    <string name="description">Description</string>
+    <string name="available">Available</string>
 
 </resources>

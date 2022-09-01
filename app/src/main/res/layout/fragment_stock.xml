@@ -19,7 +19,7 @@
             android:id="@+id/iv_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_back"
@@ -29,10 +29,10 @@
             android:id="@+id/tv_dash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/lato"
-            android:text="Stock"
+            android:text="@string/stock"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
-            android:text="Item"
+            android:text="@string/item"
             android:textColor="@color/text"
             android:textStyle="bold" />
 
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/lato"
             android:gravity="start"
-            android:text="Description"
+            android:text="@string/description"
             android:textColor="@color/text"
             android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/lato"
             android:gravity="end"
-            android:text="Available"
+            android:text="@string/available"
             android:textColor="@color/text"
             android:textStyle="bold" />
 
