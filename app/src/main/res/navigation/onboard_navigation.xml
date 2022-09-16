@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding_navigation.xml"
+    app:startDestination="@id/userLoginFragment">
+
+    <fragment
+        android:id="@+id/terminalIdFragment"
+        android:name="ke.co.ideagalore.olyxstore.ui.fragments.TerminalIdFragment"
+        android:label="fragment_terminal_id"
+        tools:layout="@layout/fragment_terminal_id" />
+    <fragment
+        android:id="@+id/userStoreFragment"
+        android:name="ke.co.ideagalore.olyxstore.ui.fragments.UserStoreFragment"
+        android:label="fragment_user_store"
+        tools:layout="@layout/fragment_user_store" />
+    <fragment
+        android:id="@+id/userSignUpFragment"
+        android:name="ke.co.ideagalore.olyxstore.ui.fragments.UserSignUpFragment"
+        android:label="fragment_user_sign_up"
+        tools:layout="@layout/fragment_user_sign_up" />
+    <fragment
+        android:id="@+id/userLoginFragment"
+        android:name="ke.co.ideagalore.olyxstore.ui.fragments.UserLoginFragment"
+        android:label="fragment_user_login"
+        tools:layout="@layout/fragment_user_login" />
+</navigation>

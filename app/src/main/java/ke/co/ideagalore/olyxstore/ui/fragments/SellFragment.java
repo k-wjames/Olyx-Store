@@ -41,7 +41,7 @@ import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
 import ke.co.ideagalore.olyxstore.models.Catalogue;
 import ke.co.ideagalore.olyxstore.models.SaleItem;
 import ke.co.ideagalore.olyxstore.models.TestItem;
-import ke.co.ideagalore.olyxstore.utils.Dialogs;
+import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 
 public class SellFragment extends Fragment implements View.OnClickListener {
 
@@ -60,7 +60,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     Dialog dialog;
 
-    Dialogs dialogs;
 
     public SellFragment() {
     }
@@ -464,7 +463,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     private static class CommitNewTransaction extends AsyncTask<SaleItem, Void, Void> {
 
-        Dialogs dialogs = new Dialogs();
+        CustomDialogs dialogs=new CustomDialogs();
         private WeakReference<SellFragment> weakReference;
 
         CommitNewTransaction(SellFragment fragment) {

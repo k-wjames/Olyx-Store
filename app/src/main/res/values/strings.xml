@@ -33,5 +33,24 @@
     <string name="stock">Stock</string>
     <string name="description">Description</string>
     <string name="available">Available</string>
+    <string name="email_sample">email@sample.com</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="password_hint">strong password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up_here">Sign up here</string>
+    <string name="terminal">terminal id</string>
+    <string name="next">Continue</string>
+    <string name="sign_in_here">Sign in here</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="hint_username">username</string>
+    <string name="name">Username</string>
+    <string name="user_account">Create account</string>
+    <string name="create_user_account">Create user account</string>
+    <string name="please_enter_terminal_id">Please key in an authorised terminal ID</string>
+    <string name="we_are_almost_in_one_more_step">We are almost in, one more step</string>
+    <string name="please_select_attending_store">Please select your store</string>
 
 </resources>

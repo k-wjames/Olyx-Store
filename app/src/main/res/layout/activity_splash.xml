@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/accent"
     tools:context=".ui.activities.Splash">
 
 
@@ -12,7 +12,7 @@
     android:layout_width="150dp"
     android:layout_height="150dp"
     android:src="@drawable/olyx"
-    android:layout_centerInParent="true"/>
-
+    android:layout_centerInParent="true"
+    app:tint="@color/text"/>
 
 </RelativeLayout>

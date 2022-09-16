@@ -1,13 +1,6 @@
 package ke.co.ideagalore.olyxstore.ui.fragments;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,8 +31,8 @@ import java.util.Date;
 import java.util.List;
 
 import ke.co.ideagalore.olyxstore.R;
-import ke.co.ideagalore.olyxstore.utils.Utilities;
 import ke.co.ideagalore.olyxstore.adapters.CreditAdapter;
+import ke.co.ideagalore.olyxstore.commons.ValidateFields;
 import ke.co.ideagalore.olyxstore.databinding.FragmentCreditBinding;
 import ke.co.ideagalore.olyxstore.models.Credit;
 
@@ -48,7 +40,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
 
     FragmentCreditBinding binding;
 
-    Utilities utils = new Utilities();
+    ValidateFields validator = new ValidateFields();
 
     List<Credit> creditList = new ArrayList<>();
 
@@ -170,11 +162,11 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
 
         save.setOnClickListener(view -> {
 
-            if (utils.validateEditTexts(product, "Product") &&
-                    utils.validateEditTexts(quantity, "Quantity") &&
-                    utils.validateEditTexts(amount, "Amount") &&
-                    utils.validateEditTexts(name, "Name") &&
-                    utils.validateEditTexts(phone, "Phone")) {
+            if (validator.validateEditTextFields(requireActivity(), product)
+                    && validator.validateEditTextFields(requireActivity(), quantity)
+                    && validator.validateEditTextFields(requireActivity(), amount)
+                    && validator.validateEditTextFields(requireActivity(), name)
+                    && validator.validateEditTextFields(requireActivity(), phone)) {
                 progressBar.setVisibility(View.VISIBLE);
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Creditors");
                 String key = reference.push().getKey();

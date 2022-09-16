@@ -8,6 +8,8 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import ke.co.ideagalore.olyxstore.databinding.ActivitySplashBinding;
 
 public class Splash extends AppCompatActivity {
@@ -36,7 +38,12 @@ public class Splash extends AppCompatActivity {
 
     private void checkAuthenticationStatus() {
 
-        startActivity(new Intent(getApplicationContext(), Home.class));
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), Home.class));
+        } else {
+            startActivity(new Intent(getApplicationContext(), Onboard.class));
+        }
         finish();
     }
 }
