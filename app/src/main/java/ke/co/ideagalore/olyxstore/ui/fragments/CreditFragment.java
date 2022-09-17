@@ -1,6 +1,9 @@
 package ke.co.ideagalore.olyxstore.ui.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +47,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
 
     List<Credit> creditList = new ArrayList<>();
 
-    String dateToday, time;
+    String dateToday, time, store, terminal, username;
 
     public CreditFragment() {
     }
@@ -67,6 +70,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
         DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a");
         time = timeFormat.format(new Date());
 
+        getPreferenceData();
         getCreditorsData();
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -107,7 +111,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getCreditorsData() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Creditors");
+        DatabaseReference ref =FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Creditors");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -168,7 +172,7 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
                     && validator.validateEditTextFields(requireActivity(), name)
                     && validator.validateEditTextFields(requireActivity(), phone)) {
                 progressBar.setVisibility(View.VISIBLE);
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Creditors");
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Creditors");
                 String key = reference.push().getKey();
                 Credit credit = new Credit();
                 credit.setCreditId(key);
@@ -179,6 +183,8 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
                 credit.setAmount(amount.getText().toString().trim());
                 credit.setName(name.getText().toString().trim());
                 credit.setPhone(phone.getText().toString().trim());
+                credit.setStore(store);
+                credit.setAttendant(username);
 
                 assert key != null;
                 reference.child(key).setValue(credit).addOnCompleteListener(task -> {
@@ -193,6 +199,14 @@ public class CreditFragment extends Fragment implements View.OnClickListener {
                 });
             }
         });
+    }
+
+    private void getPreferenceData() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        store = sharedPreferences.getString("store", null);
+        terminal = sharedPreferences.getString("terminal", null);
+        username = sharedPreferences.getString("name", null);
+
     }
 
 }

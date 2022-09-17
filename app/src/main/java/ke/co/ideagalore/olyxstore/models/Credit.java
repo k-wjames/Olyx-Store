@@ -1,12 +1,13 @@
 package ke.co.ideagalore.olyxstore.models;
 
 public class Credit {
-    String product, quantity, name, amount, phone, creditId, date, time;
+    String product, quantity, name, amount, phone, creditId, date, time, attendant, store;
 
     public Credit() {
     }
 
-    public Credit(String product, String quantity, String name, String amount, String phone, String creditId, String date, String time) {
+    public Credit(String product, String quantity, String name, String amount,
+                  String phone, String creditId, String date, String time, String attendant, String store) {
         this.product = product;
         this.quantity = quantity;
         this.name = name;
@@ -15,6 +16,8 @@ public class Credit {
         this.creditId = creditId;
         this.date = date;
         this.time = time;
+        this.attendant = attendant;
+        this.store = store;
     }
 
     public String getProduct() {
@@ -79,5 +82,21 @@ public class Credit {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getAttendant() {
+        return attendant;
+    }
+
+    public void setAttendant(String attendant) {
+        this.attendant = attendant;
+    }
+
+    public String getStore() {
+        return store;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
     }
 }

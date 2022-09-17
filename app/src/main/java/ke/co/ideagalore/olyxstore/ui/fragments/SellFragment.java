@@ -1,6 +1,9 @@
 package ke.co.ideagalore.olyxstore.ui.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,26 +42,28 @@ import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.SaleAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
 import ke.co.ideagalore.olyxstore.models.Catalogue;
-import ke.co.ideagalore.olyxstore.models.SaleItem;
-import ke.co.ideagalore.olyxstore.models.TestItem;
+import ke.co.ideagalore.olyxstore.models.Transaction;
+import ke.co.ideagalore.olyxstore.models.TransactionItem;
 import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 
 public class SellFragment extends Fragment implements View.OnClickListener {
 
     FragmentSellBinding binding;
 
-    ArrayList<TestItem> myGasArray, myAccessoriesArray, myGasRefillArray;
-    ArrayList<SaleItem> myTransactionArray = new ArrayList<>();
+    ArrayList<TransactionItem> myGasArray, myAccessoriesArray, myGasRefillArray;
+    ArrayList<Transaction> myTransactionArray = new ArrayList<>();
 
-    TestItem testItem;
+    TransactionItem transactionItem;
 
     int price, markedPrice, buyingPrice;
 
-    String transactionType, selectedItem, dateToday;
+    String transactionType, selectedItem, dateToday, store, name, terminal;
 
-    SaleItem saleItem;
+    Transaction transaction;
 
     Dialog dialog;
+
+    Catalogue catalogue=new Catalogue();
 
 
     public SellFragment() {
@@ -83,7 +88,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         dateToday = formatter.format(date);
 
-        getGasRefillData();
+        getPreferenceData();
         getCatalogueData();
 
         binding.llRefill.setOnClickListener(this);
@@ -113,7 +118,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
                 for (int i = 0; i < myTransactionArray.size(); i++) {
 
-                    SaleItem item = myTransactionArray.get(i);
+                    Transaction item = myTransactionArray.get(i);
                     CommitNewTransaction commitNewTransaction = new CommitNewTransaction(this);
                     commitNewTransaction.execute(item);
                 }
@@ -129,8 +134,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getCatalogueData() {
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Catalogue");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Catalogue");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -144,24 +148,30 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     for (int i = 0; i < catalogueArrayList.size(); i++) {
 
                         String prod = catalogueArrayList.get(i).getProduct();
-                        price = catalogueArrayList.get(i).getSellingPrice();
+                        price = catalogueArrayList.get(i).getMarkedPrice();
                         String category = catalogueArrayList.get(i).getCategory();
                         int buyingPrice = catalogueArrayList.get(i).getBuyingPrice();
 
 
-                        testItem = new TestItem();
-                        if (category.equals("Gas")) {
+                        transactionItem = new TransactionItem();
+                        if (category.equals("New Gas")) {
 
-                            testItem.setMarkedPrice(price);
-                            testItem.setProduct(prod);
-                            myGasArray.add(testItem);
+                            transactionItem.setMarkedPrice(price);
+                            transactionItem.setProduct(prod);
+                            transactionItem.setBuyingPrice(buyingPrice);
+                            myGasArray.add(transactionItem);
 
-                        } else if (category.equals("Accessory")) {
-                            testItem.setMarkedPrice(price);
-                            testItem.setProduct(prod);
-                            testItem.setBuyingPrice(buyingPrice);
-                            myAccessoriesArray.add(testItem);
+                        } else if (category.equals("Accessories")) {
+                            transactionItem.setMarkedPrice(price);
+                            transactionItem.setProduct(prod);
+                            transactionItem.setBuyingPrice(buyingPrice);
+                            myAccessoriesArray.add(transactionItem);
 
+                        }else {
+                            transactionItem.setMarkedPrice(price);
+                            transactionItem.setProduct(prod);
+                            transactionItem.setBuyingPrice(buyingPrice);
+                            myGasRefillArray.add(transactionItem);
                         }
                     }
 
@@ -179,42 +189,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void getGasRefillData() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Refill");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot catalogueSnapshot : snapshot.getChildren()) {
-                    TestItem catalogue = catalogueSnapshot.getValue(TestItem.class);
-
-                    ArrayList<TestItem> catalogueArrayList = new ArrayList<>();
-                    catalogueArrayList.add(catalogue);
-
-                    for (int i = 0; i < catalogueArrayList.size(); i++) {
-
-                        String prod = catalogueArrayList.get(i).getProduct();
-                        price = catalogueArrayList.get(i).getMarkedPrice();
-                        int buyingPrice = catalogueArrayList.get(i).getBuyingPrice();
-
-                        testItem = new TestItem();
-                        testItem.setMarkedPrice(price);
-                        testItem.setProduct(prod);
-                        testItem.setBuyingPrice(buyingPrice);
-                        myGasRefillArray.add(testItem);
-
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     private void refillGasDialog(String transType) {
 
@@ -231,7 +205,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
         Spinner spinner = dialog.findViewById(R.id.spinner_product);
 
-        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, myGasRefillArray);
+        ArrayAdapter<TransactionItem> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, myGasRefillArray);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -239,7 +213,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedItem = spinner.getSelectedItem().toString();
 
-                TestItem item = (TestItem) spinner.getSelectedItem();
+                TransactionItem item = (TransactionItem) spinner.getSelectedItem();
                 markedPrice = item.getMarkedPrice();
                 buyingPrice = item.getBuyingPrice();
                 edtPrice.setText(markedPrice + "");
@@ -270,23 +244,27 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             int totalPrice = unitsSold * pricePerUnit;
             int profit = totalPrice - (buyingPrice * unitsSold);
 
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Sales");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
             String salesKey = ref.push().getKey();
 
             DateFormat formatter = new SimpleDateFormat("hh:mm:ss a");
             String time = formatter.format(new Date());
 
-            saleItem = new SaleItem();
-            saleItem.setProduct(selectedItem);
-            saleItem.setQuantity(unitsSold);
-            saleItem.setTotalPrice(totalPrice);
-            saleItem.setSaleId(salesKey);
-            saleItem.setTime(time);
-            saleItem.setShop("Mwimuto");
-            saleItem.setDate(dateToday);
-            saleItem.setProfit(profit);
-            saleItem.setSaleType(transType);
-            myTransactionArray.add(saleItem);
+            transaction = new Transaction();
+            transaction.setTerminalId(terminal);
+            transaction.setAttendant(name);
+            transaction.setStore(store);
+            transaction.setProfit(profit);
+            transaction.setProduct(selectedItem);
+            transaction.setQuantity(unitsSold);
+            transaction.setTotalPrice(totalPrice);
+            transaction.setTransactionId(salesKey);
+            transaction.setTime(time);
+            transaction.setDate(dateToday);
+            transaction.setProfit(profit);
+            transaction.setTransactionType(transType);
+            myTransactionArray.add(transaction);
+
             int totalShillings = 0;
             for (int i = 0; i < myTransactionArray.size(); i++) {
 
@@ -314,14 +292,14 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
         Spinner spinner = dialog.findViewById(R.id.spinner_product);
 
-        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, myGasArray);
+        ArrayAdapter<TransactionItem> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, myGasArray);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedItem = spinner.getSelectedItem().toString();
-                TestItem item = (TestItem) spinner.getSelectedItem();
+                TransactionItem item = (TransactionItem) spinner.getSelectedItem();
                 markedPrice = item.getMarkedPrice();
                 buyingPrice = item.getBuyingPrice();
                 edtPrice.setText(markedPrice + "");
@@ -352,23 +330,26 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             int totalPrice = unitsSold * pricePerUnit;
             int profit = totalPrice - (buyingPrice * unitsSold);
 
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Sales");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
             String salesKey = ref.push().getKey();
 
             DateFormat formatter = new SimpleDateFormat("hh:mm:ss a");
             String time = formatter.format(new Date());
 
-            saleItem = new SaleItem();
-            saleItem.setProduct(selectedItem);
-            saleItem.setQuantity(unitsSold);
-            saleItem.setTotalPrice(totalPrice);
-            saleItem.setSaleId(salesKey);
-            saleItem.setTime(time);
-            saleItem.setShop("Mwimuto");
-            saleItem.setDate(dateToday);
-            saleItem.setProfit(profit);
-            saleItem.setSaleType(transType);
-            myTransactionArray.add(saleItem);
+            transaction = new Transaction();
+            transaction.setTerminalId(terminal);
+            transaction.setAttendant(name);
+            transaction.setStore(store);
+            transaction.setProfit(profit);
+            transaction.setProduct(selectedItem);
+            transaction.setQuantity(unitsSold);
+            transaction.setTotalPrice(totalPrice);
+            transaction.setTransactionId(salesKey);
+            transaction.setTime(time);
+            transaction.setDate(dateToday);
+            transaction.setProfit(profit);
+            transaction.setTransactionType(transType);
+            myTransactionArray.add(transaction);
             int totalShillings = 0;
             for (int i = 0; i < myTransactionArray.size(); i++) {
 
@@ -395,14 +376,14 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
         Spinner spinner = dialog.findViewById(R.id.spinner_product);
 
-        ArrayAdapter<TestItem> arrayAdapter = new ArrayAdapter<TestItem>(getActivity(), android.R.layout.simple_spinner_item, myAccessoriesArray);
+        ArrayAdapter<TransactionItem> arrayAdapter = new ArrayAdapter<TransactionItem>(getActivity(), android.R.layout.simple_spinner_item, myAccessoriesArray);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedItem = spinner.getSelectedItem().toString();
-                TestItem item = (TestItem) spinner.getSelectedItem();
+                TransactionItem item = (TransactionItem) spinner.getSelectedItem();
                 markedPrice = item.getMarkedPrice();
                 buyingPrice = item.getBuyingPrice();
                 edtPrice.setText(markedPrice + "");
@@ -433,27 +414,31 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             int totalPrice = unitsSold * pricePerUnit;
             int profit = totalPrice - (buyingPrice * unitsSold);
 
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Sales");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
             String salesKey = ref.push().getKey();
 
             DateFormat formatter = new SimpleDateFormat("hh:mm:ss a");
             String time = formatter.format(new Date());
 
-            saleItem = new SaleItem();
-            saleItem.setProduct(selectedItem);
-            saleItem.setQuantity(unitsSold);
-            saleItem.setTotalPrice(totalPrice);
-            saleItem.setSaleId(salesKey);
-            saleItem.setTime(time);
-            saleItem.setShop("Mwimuto");
-            saleItem.setDate(dateToday);
-            saleItem.setProfit(profit);
-            saleItem.setSaleType(transType);
-            myTransactionArray.add(saleItem);
+            transaction = new Transaction();
+            transaction.setTerminalId(terminal);
+            transaction.setAttendant(name);
+            transaction.setStore(store);
+            transaction.setProfit(profit);
+            transaction.setProduct(selectedItem);
+            transaction.setQuantity(unitsSold);
+            transaction.setTotalPrice(totalPrice);
+            transaction.setTransactionId(salesKey);
+            transaction.setTime(time);
+            transaction.setDate(dateToday);
+            transaction.setProfit(profit);
+            transaction.setTransactionType(transType);
+            myTransactionArray.add(transaction);
+
             int totalShillings = 0;
             for (int i = 0; i < myTransactionArray.size(); i++) {
 
-                totalShillings = +totalShillings + myTransactionArray.get(i).getTotalPrice();
+                totalShillings = totalShillings + myTransactionArray.get(i).getTotalPrice();
                 binding.tvTotalSpend.setText(totalShillings + "");
             }
             displayList();
@@ -461,7 +446,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private static class CommitNewTransaction extends AsyncTask<SaleItem, Void, Void> {
+    private static class CommitNewTransaction extends AsyncTask<Transaction, Void, Void> {
 
         CustomDialogs dialogs=new CustomDialogs();
         private WeakReference<SellFragment> weakReference;
@@ -480,13 +465,14 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         }
 
         @Override
-        protected Void doInBackground(SaleItem... saleItems) {
-            for (int i = 0; i < saleItems.length; i++) {
+        protected Void doInBackground(Transaction... transactions) {
+            for (int i = 0; i < transactions.length; i++) {
 
-                SaleItem saleItem = saleItems[i];
-                String key = saleItems[i].getSaleId();
-                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Sales");
-                myRef.child(key).setValue(saleItem);
+                Transaction transaction = transactions[i];
+                String key = transactions[i].getTransactionId();
+                String terminal=transactions[i].getTerminalId();
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
+                myRef.child(key).setValue(transaction);
 
             }
             return null;
@@ -513,5 +499,13 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         binding.rvSales.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         dialog.dismiss();
+    }
+
+    private void getPreferenceData() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        store = sharedPreferences.getString("store", null);
+        terminal = sharedPreferences.getString("terminal", null);
+        name = sharedPreferences.getString("name", null);
+
     }
 }

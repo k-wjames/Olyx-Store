@@ -14,21 +14,21 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ke.co.ideagalore.olyxstore.R;
-import ke.co.ideagalore.olyxstore.models.SaleItem;
+import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<SaleItem> saleItemArrayList;
+    ArrayList<Transaction> transactionArrayList;
 
-    SaleItem saleItem;
+    Transaction transaction;
 
     public TransactionsAdapter() {
     }
 
-    public TransactionsAdapter(Context context, ArrayList<SaleItem> saleItemArrayList) {
+    public TransactionsAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
         this.context = context;
-        this.saleItemArrayList = saleItemArrayList;
+        this.transactionArrayList = transactionArrayList;
     }
 
     @NonNull
@@ -41,21 +41,21 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     @Override
     public void onBindViewHolder(@NonNull TransactionsAdapter.ViewHolder holder, int position) {
 
-        saleItem = saleItemArrayList.get(position);
-        holder.product.setText(saleItem.getProduct() + " *" + saleItem.getQuantity());
-        holder.transactionType.setText(saleItem.getSaleType());
-        holder.price.setText("Price KES " + saleItem.getTotalPrice());
+        transaction = transactionArrayList.get(position);
+        holder.product.setText(transaction.getProduct() + " *" + transaction.getQuantity());
+        holder.transactionType.setText(transaction.getTransactionType());
+        holder.price.setText("Price KES " + transaction.getTotalPrice());
 
-        if (getDate().equals(saleItem.getDate())) {
-            holder.time.setText(saleItem.getTime());
+        if (getDate().equals(transaction.getDate())) {
+            holder.time.setText(transaction.getTime());
         } else {
-            holder.time.setText(saleItem.getDate() + " " + saleItem.getTime());
+            holder.time.setText(transaction.getDate() + " " + transaction.getTime());
         }
     }
 
     @Override
     public int getItemCount() {
-        return saleItemArrayList.size();
+        return transactionArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

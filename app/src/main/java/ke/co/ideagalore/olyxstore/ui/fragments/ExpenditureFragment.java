@@ -1,6 +1,9 @@
 package ke.co.ideagalore.olyxstore.ui.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,7 +41,7 @@ import ke.co.ideagalore.olyxstore.models.Expense;
 public class ExpenditureFragment extends Fragment implements View.OnClickListener {
 
     FragmentExpenditureBinding binding;
-    String dateToday;
+    String dateToday, terminal;
 
     List<Expense> expenseList = new ArrayList<>();
 
@@ -63,7 +66,7 @@ public class ExpenditureFragment extends Fragment implements View.OnClickListene
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         dateToday = formatter.format(date);
-
+        getPreferenceData();
         getExpenditureData();
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -169,7 +172,7 @@ public class ExpenditureFragment extends Fragment implements View.OnClickListene
         DateFormat formatter = new SimpleDateFormat("hh:mm:ss a");
         String time = formatter.format(new Date());
         String expenseId;
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Expenditure");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Expenditure");
         expenseId = ref.push().getKey();
         Expense exp = new Expense();
         exp.setExpenseId(expenseId);
@@ -196,7 +199,7 @@ public class ExpenditureFragment extends Fragment implements View.OnClickListene
 
 
     private void getExpenditureData() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Expenditure");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Expenditure");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -233,5 +236,10 @@ public class ExpenditureFragment extends Fragment implements View.OnClickListene
         adapter = new ExpenseAdapter(getActivity(), expenseIncurred);
         binding.rvExpenditure.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    private void getPreferenceData() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        terminal = sharedPreferences.getString("terminal", null);
     }
 }

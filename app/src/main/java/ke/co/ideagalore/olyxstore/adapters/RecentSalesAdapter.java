@@ -8,18 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ke.co.ideagalore.olyxstore.R;
-import ke.co.ideagalore.olyxstore.models.SaleItem;
+import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class RecentSalesAdapter extends RecyclerView.Adapter<RecentSalesAdapter.ViewHolder> {
 
-    List<SaleItem> saleItemList;
+    List<Transaction> transactionList;
 
-    public RecentSalesAdapter(List<SaleItem> saleItemList) {
-        this.saleItemList = saleItemList;
+    public RecentSalesAdapter(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
     }
 
     @NonNull
@@ -32,17 +31,17 @@ public class RecentSalesAdapter extends RecyclerView.Adapter<RecentSalesAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        SaleItem saleItem = saleItemList.get(position);
-        holder.tvId.setText(saleItem.getSaleId());
-        holder.tvTransaction.setText(saleItem.getSaleType()+"-"+saleItem.getProduct()+" *"+saleItem.getQuantity());
-        holder.tvDateTime.setText(saleItem.getDate()+" "+saleItem.getTime());
-        holder.tvPrice.setText("KES "+saleItem.getTotalPrice());
+        Transaction transaction = transactionList.get(position);
+        holder.tvId.setText(transaction.getTransactionId());
+        holder.tvTransaction.setText(transaction.getTransactionType()+"-"+ transaction.getProduct()+" *"+ transaction.getQuantity());
+        holder.tvDateTime.setText(transaction.getDate()+" "+ transaction.getTime());
+        holder.tvPrice.setText("KES "+ transaction.getTotalPrice());
 
     }
 
     @Override
     public int getItemCount() {
-        return saleItemList.size();
+        return transactionList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

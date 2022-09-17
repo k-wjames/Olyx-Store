@@ -20,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 import ke.co.ideagalore.olyxstore.commons.ValidateFields;
@@ -30,7 +33,7 @@ import ke.co.ideagalore.olyxstore.ui.activities.Home;
 public class UserSignUpFragment extends Fragment implements View.OnClickListener {
 
     FragmentUserSignUpBinding binding;
-    String terminal, selectedStore;
+    String terminal, selectedStore,userId;
 
     CustomDialogs customDialogs = new CustomDialogs();
     ValidateFields validator = new ValidateFields();
@@ -80,11 +83,12 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
 
             if (task.isSuccessful()) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Attendants");
-                String userId = auth.getUid();
+                userId = auth.getUid();
                 Attendant attendant = new Attendant();
                 attendant.setAttendantId(userId);
                 attendant.setAttendant(binding.edtUsername.getText().toString().trim());
                 attendant.setStore(selectedStore);
+                attendant.setAccessStatus(false);
 
                 reference.child(userId).setValue(attendant).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -126,6 +130,13 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
         editor.putString("store", selectedStore);
         editor.putString("terminal", terminal);
         editor.commit();
+
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Attendants").child(userId);
+        Map<String, String>map=new HashMap<>();
+        map.put("attendant",binding.edtUsername.getText().toString().trim());
+        map.put("terminal", terminal);
+        map.put("store", selectedStore);
+        ref.setValue(map);
     }
 
 }

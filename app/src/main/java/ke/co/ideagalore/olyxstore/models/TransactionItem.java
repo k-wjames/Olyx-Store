@@ -1,14 +1,14 @@
 package ke.co.ideagalore.olyxstore.models;
 
-public class TestItem {
+public class TransactionItem {
 
     int buyingPrice, markedPrice;
     String product;
 
-    public TestItem() {
+    public TransactionItem() {
     }
 
-    public TestItem(int buyingPrice, int markedPrice, String product) {
+    public TransactionItem(int buyingPrice, int markedPrice, String product) {
         this.buyingPrice = buyingPrice;
         this.markedPrice = markedPrice;
         this.product = product;

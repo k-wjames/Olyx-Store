@@ -1,6 +1,10 @@
 package ke.co.ideagalore.olyxstore.ui.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,19 +33,19 @@ import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.RecentSalesAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 import ke.co.ideagalore.olyxstore.models.Expense;
-import ke.co.ideagalore.olyxstore.models.SaleItem;
+import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     FragmentHomeBinding binding;
 
-    ArrayList<SaleItem> saleItemArrayList;
+    ArrayList<Transaction> transactionArrayList;
 
     List<Expense> expenseList = new ArrayList<>();
 
-    String dateToday;
+    String dateToday, store, name, terminal, terminalId, attendantStore, attendantId, attendantName;
 
-    SaleItem saleItem;
+    Transaction transaction;
 
     Expense expense;
 
@@ -59,10 +64,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         getCurrentDate();
-        getTransactionsData();
-        getExpenditureData();
+        getPreferenceData();
 
-        saleItemArrayList = new ArrayList<>();
+        transactionArrayList = new ArrayList<>();
 
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -82,7 +86,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Navigation.findNavController(view).navigate(R.id.transactionsFragment);
         } else if (view == binding.cvExpenditure) {
             Navigation.findNavController(view).navigate(R.id.expenditureFragment);
-        }else {
+        } else {
             Navigation.findNavController(view).navigate(R.id.creditFragment);
         }
     }
@@ -103,24 +107,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void getTransactionsData() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sales");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot transactionSnapshot : snapshot.getChildren()) {
 
-                    saleItem = transactionSnapshot.getValue(SaleItem.class);
-                    saleItemArrayList.add(0,saleItem);
+                    transaction = transactionSnapshot.getValue(Transaction.class);
+                    transactionArrayList.add(0, transaction);
 
                     int sales = 0;
                     int gasRefillSales = 0;
                     int gasSales = 0;
                     int accessorySales = 0;
 
-                    List<SaleItem>soldItems=new ArrayList<>();
+                    List<Transaction> soldItems = new ArrayList<>();
 
-                    for (SaleItem item : saleItemArrayList) {
+                    for (Transaction item : transactionArrayList) {
                         String date = item.getDate();
 
                         if (date.equals(dateToday)) {
@@ -136,21 +140,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             sales = sales + item.getTotalPrice();
                             binding.tvSales.setText("KES " + sales);
 
-                            if (item.getSaleType().equals("Gas refill")) {
+                            if (item.getTransactionType().equals("Gas refill")) {
 
                                 gasRefillSales = gasRefillSales + item.getTotalPrice();
                                 binding.tvRefillSales.setText("KES " + gasRefillSales);
 
                             }
 
-                            if (item.getSaleType().equals("Gas sale")) {
+                            if (item.getTransactionType().equals("Gas sale")) {
 
                                 gasSales = gasSales + item.getTotalPrice();
                                 binding.tvGasSales.setText("KES " + gasSales);
 
                             }
 
-                            if (item.getSaleType().equals("Accessory sale")) {
+                            if (item.getTransactionType().equals("Accessory sale")) {
 
                                 accessorySales = accessorySales + item.getTotalPrice();
                                 binding.tvAccessorySales.setText("KES " + accessorySales);
@@ -174,7 +178,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void getExpenditureData() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Expenditure");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Expenditure");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -217,12 +221,57 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void displayList(List<SaleItem> list) {
+    private void displayList(List<Transaction> list) {
         binding.rvTransactions.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvTransactions.setHasFixedSize(true);
         RecentSalesAdapter adapter = new RecentSalesAdapter(list);
         binding.rvTransactions.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        //binding.cvRecentTransactions.setVisibility(View.VISIBLE);
+    }
+
+    private void getPreferenceData() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        store = sharedPreferences.getString("store", null);
+        terminal = sharedPreferences.getString("terminal", null);
+        name = sharedPreferences.getString("name", null);
+
+        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(terminal) && TextUtils.isEmpty(store)) {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            attendantId = auth.getUid();
+            getTerminalData(attendantId);
+
+        } else {
+            binding.tvDash.setText(store + ",");
+            getTransactionsData();
+            getExpenditureData();
+        }
+
+    }
+
+    private void getTerminalData(String attendantId) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Attendants").child(attendantId);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                attendantStore = snapshot.child("store").getValue(String.class);
+                attendantName = snapshot.child("attendant").getValue(String.class);
+                terminalId = snapshot.child("terminal").getValue(String.class);
+                savePreferencesData();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void savePreferencesData() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", attendantName);
+        editor.putString("store", attendantStore);
+        editor.putString("terminal", terminalId);
+        editor.commit();
     }
 }

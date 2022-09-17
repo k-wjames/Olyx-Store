@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ke.co.ideagalore.olyxstore.R;
-import ke.co.ideagalore.olyxstore.models.SaleItem;
+import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
     Context context;
-    ArrayList<SaleItem> saleItemsList;
+    ArrayList<Transaction> saleItemsList;
 
-    SaleItem item;
+    Transaction item;
 
     public SaleAdapter() {
     }
 
-    public SaleAdapter(Context context, ArrayList<SaleItem> saleItemsList) {
+    public SaleAdapter(Context context, ArrayList<Transaction> saleItemsList) {
         this.context = context;
         this.saleItemsList = saleItemsList;
     }

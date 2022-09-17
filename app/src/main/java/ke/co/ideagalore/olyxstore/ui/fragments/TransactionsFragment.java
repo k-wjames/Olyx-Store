@@ -1,5 +1,8 @@
 package ke.co.ideagalore.olyxstore.ui.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,17 +28,17 @@ import java.util.Date;
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentTransactionsBinding;
-import ke.co.ideagalore.olyxstore.models.SaleItem;
+import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class TransactionsFragment extends Fragment implements View.OnClickListener {
 
     FragmentTransactionsBinding binding;
-    ArrayList<SaleItem> saleItemArrayList;
-    String dateToday;
+    ArrayList<Transaction> transactionArrayList;
+    String dateToday, terminal;
 
     TransactionsAdapter adapter;
 
-    SaleItem saleItem;
+    Transaction transaction;
 
     public TransactionsFragment() {
     }
@@ -52,10 +55,12 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        saleItemArrayList = new ArrayList<>();
+        transactionArrayList = new ArrayList<>();
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         dateToday = formatter.format(date);
+
+        getPreferenceData();
         getTransactionsData();
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -76,7 +81,7 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     }
 
     private void getTransactionsData() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sales");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
         binding.progressBar.setVisibility(View.VISIBLE);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,10 +91,10 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
 
                 for (DataSnapshot transactionSnapshot : snapshot.getChildren()) {
 
-                    saleItem = transactionSnapshot.getValue(SaleItem.class);
-                    saleItemArrayList.add(0,saleItem);
+                    transaction = transactionSnapshot.getValue(Transaction.class);
+                    transactionArrayList.add(0, transaction);
 
-                    if (saleItemArrayList.size() ==0) {
+                    if (transactionArrayList.size() == 0) {
                         binding.animationView.setVisibility(View.VISIBLE);
                     } else {
 
@@ -109,15 +114,15 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     private void displayList() {
         binding.rvTransactions.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvTransactions.setHasFixedSize(true);
-        TransactionsAdapter adapter = new TransactionsAdapter(getActivity(), saleItemArrayList);
+        TransactionsAdapter adapter = new TransactionsAdapter(getActivity(), transactionArrayList);
         binding.rvTransactions.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
     private void searchProduct(String item) {
-        ArrayList<SaleItem> filteredList = new ArrayList<>();
-        for (SaleItem object : saleItemArrayList) {
-            if (object.getSaleType().toLowerCase().contains(item.toLowerCase())) {
+        ArrayList<Transaction> filteredList = new ArrayList<>();
+        for (Transaction object : transactionArrayList) {
+            if (object.getTransactionType().toLowerCase().contains(item.toLowerCase())) {
                 filteredList.add(object);
             }
         }
@@ -130,5 +135,10 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         Navigation.findNavController(view).navigate(R.id.homeFragment);
+    }
+
+    private void getPreferenceData() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        terminal = sharedPreferences.getString("terminal", null);
     }
 }

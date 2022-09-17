@@ -2,14 +2,16 @@ package ke.co.ideagalore.olyxstore.models;
 
 public class Attendant {
     String attendant, attendantId, store;
+    boolean accessStatus;
 
     public Attendant() {
     }
 
-    public Attendant(String attendant, String attendantId, String store) {
+    public Attendant(String attendant, String attendantId, String store, boolean accessStatus) {
         this.attendant = attendant;
         this.attendantId = attendantId;
         this.store = store;
+        this.accessStatus = accessStatus;
     }
 
     public String getAttendant() {
@@ -34,5 +36,13 @@ public class Attendant {
 
     public void setStore(String store) {
         this.store = store;
+    }
+
+    public boolean isAccessStatus() {
+        return accessStatus;
+    }
+
+    public void setAccessStatus(boolean accessStatus) {
+        this.accessStatus = accessStatus;
     }
 }
