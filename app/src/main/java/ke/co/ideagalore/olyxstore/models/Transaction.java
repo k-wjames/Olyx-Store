@@ -3,13 +3,13 @@ package ke.co.ideagalore.olyxstore.models;
 public class Transaction {
 
     String transactionId,transactionType, product, store, date, time, attendant, terminalId;
-    int quantity, totalPrice, profit;
+    int quantity, buyingPrice,sellingPrice,totalPrice, profit;
 
     public Transaction() {
     }
 
     public Transaction(String transactionId, String transactionType, String product, String store,
-                       String date, String time, String attendant, String terminalId, int quantity, int totalPrice, int profit) {
+                       String date, String time, String attendant, String terminalId, int quantity, int buyingPrice, int sellingPrice, int totalPrice, int profit) {
         this.transactionId = transactionId;
         this.transactionType = transactionType;
         this.product = product;
@@ -19,6 +19,8 @@ public class Transaction {
         this.attendant = attendant;
         this.terminalId = terminalId;
         this.quantity = quantity;
+        this.buyingPrice = buyingPrice;
+        this.sellingPrice = sellingPrice;
         this.totalPrice = totalPrice;
         this.profit = profit;
     }
@@ -93,6 +95,22 @@ public class Transaction {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getBuyingPrice() {
+        return buyingPrice;
+    }
+
+    public void setBuyingPrice(int buyingPrice) {
+        this.buyingPrice = buyingPrice;
+    }
+
+    public int getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(int sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
 
     public int getTotalPrice() {

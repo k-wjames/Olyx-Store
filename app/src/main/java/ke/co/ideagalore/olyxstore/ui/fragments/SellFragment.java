@@ -151,6 +151,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                         price = catalogueArrayList.get(i).getMarkedPrice();
                         String category = catalogueArrayList.get(i).getCategory();
                         int buyingPrice = catalogueArrayList.get(i).getBuyingPrice();
+                        int markedPrice=catalogueArrayList.get(i).getMarkedPrice();
 
 
                         transactionItem = new TransactionItem();
@@ -189,7 +190,6 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-
     private void refillGasDialog(String transType) {
 
         dialog = new Dialog(getActivity());
@@ -216,7 +216,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                 TransactionItem item = (TransactionItem) spinner.getSelectedItem();
                 markedPrice = item.getMarkedPrice();
                 buyingPrice = item.getBuyingPrice();
-                edtPrice.setText(markedPrice + "");
+                edtPrice.setText(String.valueOf(markedPrice));
             }
 
             @Override
@@ -261,7 +261,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             transaction.setTransactionId(salesKey);
             transaction.setTime(time);
             transaction.setDate(dateToday);
-            transaction.setProfit(profit);
+            transaction.setBuyingPrice(buyingPrice);
+            transaction.setSellingPrice(pricePerUnit);
             transaction.setTransactionType(transType);
             myTransactionArray.add(transaction);
 
@@ -347,9 +348,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             transaction.setTransactionId(salesKey);
             transaction.setTime(time);
             transaction.setDate(dateToday);
-            transaction.setProfit(profit);
+            transaction.setBuyingPrice(buyingPrice);
+            transaction.setSellingPrice(pricePerUnit);
             transaction.setTransactionType(transType);
             myTransactionArray.add(transaction);
+
             int totalShillings = 0;
             for (int i = 0; i < myTransactionArray.size(); i++) {
 
@@ -431,7 +434,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
             transaction.setTransactionId(salesKey);
             transaction.setTime(time);
             transaction.setDate(dateToday);
-            transaction.setProfit(profit);
+            transaction.setBuyingPrice(buyingPrice);
+            transaction.setSellingPrice(pricePerUnit);
             transaction.setTransactionType(transType);
             myTransactionArray.add(transaction);
 
