@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:id="@+id/layout"
+    android:padding="10dp"
     tools:context=".ui.fragments.TransactionsFragment">
 
     <LinearLayout
@@ -75,7 +76,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/layer_main"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_product"

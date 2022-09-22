@@ -9,41 +9,63 @@
         android:id="@+id/sellFragment"
         android:name="ke.co.ideagalore.olyxstore.ui.fragments.SellFragment"
         android:label="fragment_sell"
-        tools:layout="@layout/fragment_sell" />
+        tools:layout="@layout/fragment_sell" >
+        <action
+            android:id="@+id/action_sellFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/transactionsFragment"
         android:name="ke.co.ideagalore.olyxstore.ui.fragments.TransactionsFragment"
         android:label="fragment_transactions"
-        tools:layout="@layout/fragment_transactions" />
-    <fragment
-        android:id="@+id/stockFragment"
-        android:name="ke.co.ideagalore.olyxstore.ui.fragments.StockFragment"
-        android:label="fragment_stock"
-        tools:layout="@layout/fragment_stock" />
+        tools:layout="@layout/fragment_transactions" >
+        <action
+            android:id="@+id/action_transactionsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="ke.co.ideagalore.olyxstore.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/ordersFragment"
-        android:name="ke.co.ideagalore.olyxstore.ui.fragments.OrdersFragment"
-        android:label="fragment_orders"
-        tools:layout="@layout/fragment_orders" />
-    <fragment
-        android:id="@+id/checkoutFragment"
-        android:name="ke.co.ideagalore.olyxstore.ui.fragments.CheckoutFragment"
-        android:label="fragment_checkout"
-        tools:layout="@layout/fragment_checkout" />
-
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_sellFragment"
+            app:destination="@id/sellFragment"
+            app:popUpTo="@id/sellFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_expenditureFragment"
+            app:destination="@id/expenditureFragment"
+            app:popUpTo="@id/expenditureFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_creditFragment"
+            app:destination="@id/creditFragment"
+            app:popUpTo="@id/creditFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_transactionsFragment"
+            app:destination="@id/transactionsFragment"
+            app:popUpTo="@id/transactionsFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/expenditureFragment"
         android:name="ke.co.ideagalore.olyxstore.ui.fragments.ExpenditureFragment"
         android:label="fragment_expenditure"
-        tools:layout="@layout/fragment_expenditure" />
+        tools:layout="@layout/fragment_expenditure" >
+        <action
+            android:id="@+id/action_expenditureFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/creditFragment"
         android:name="ke.co.ideagalore.olyxstore.ui.fragments.CreditFragment"
         android:label="fragment_credit"
-        tools:layout="@layout/fragment_credit" />
+        tools:layout="@layout/fragment_credit" >
+        <action
+            android:id="@+id/action_creditFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"/>
+    </fragment>
+
 </navigation>

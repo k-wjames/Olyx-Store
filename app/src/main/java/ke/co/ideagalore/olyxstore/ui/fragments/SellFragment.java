@@ -91,9 +91,9 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         getPreferenceData();
         getCatalogueData();
 
-        binding.llRefill.setOnClickListener(this);
-        binding.llBuyGas.setOnClickListener(this);
-        binding.llBuyAccessory.setOnClickListener(this);
+        binding.btnRefill.setOnClickListener(this);
+        binding.btnBuyGas.setOnClickListener(this);
+        binding.btnBuyAccessory.setOnClickListener(this);
         binding.btnCheckOut.setOnClickListener(this);
         binding.ivBack.setOnClickListener(this);
         binding.ivBack.setOnClickListener(this);
@@ -103,14 +103,14 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
-        if (view == binding.llRefill) {
+        if (view == binding.btnRefill) {
             transactionType = "Gas refill";
             refillGasDialog(transactionType);
-        } else if (view == binding.llBuyGas) {
+        } else if (view == binding.btnBuyGas) {
             transactionType = "Gas sale";
             sellNewGasDialog(transactionType);
 
-        } else if (view == binding.llBuyAccessory) {
+        } else if (view == binding.btnBuyAccessory) {
             transactionType = "Accessory sale";
             sellAnAccessoryDialog(transactionType);
         } else if (view == binding.btnCheckOut) {

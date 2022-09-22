@@ -34,6 +34,7 @@
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/credit_dialog.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/credit_item.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/expense_item.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_check_out.xml" value="0.28958333333333336" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_checkout.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_credit.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/fragment_expenditure.xml" value="0.29322916666666665" />
@@ -52,7 +53,7 @@
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/recent_sales_item.xml" value="0.2921875" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/refill_dialog.xml" value="0.22" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/sales_item.xml" value="0.29322916666666665" />
-        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/sell_accessory_dialog.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/sell_accessory_dialog.xml" value="0.1" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/sell_gas_dialog.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/spinner_item.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/Dr. Pop Candy/AndroidStudioProjects/OlyxStore/app/src/main/res/layout/stock_item.xml" value="0.2921875" />
