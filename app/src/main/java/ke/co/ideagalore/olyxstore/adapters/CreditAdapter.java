@@ -47,7 +47,6 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.ViewHolder
         holder.product.setText(credit.getProduct());
         holder.amount.setText("KES " + credit.getAmount());
         holder.date.setText(credit.getDate() + " " + credit.getTime());
-        holder.call.setText("Call "+credit.getName());
 
         phone = credit.getPhone();
 
@@ -57,8 +56,6 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.ViewHolder
             context.startActivity(callIntent);
         });
 
-      /*  holder.ivSms.setOnClickListener(view -> context.getApplicationContext().startActivity(new Intent(Intent.ACTION_VIEW,
-                Uri.fromParts("message", phone, null))));*/
     }
 
     @Override
@@ -68,8 +65,8 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, product, amount, date, call;
-        ImageView ivCall, ivSms;
+        TextView name, product, amount, date;
+        ImageView ivCall;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,16 +74,8 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.ViewHolder
             product = itemView.findViewById(R.id.tv_product);
             amount = itemView.findViewById(R.id.tv_amount);
             date = itemView.findViewById(R.id.tv_date_time);
-            call = itemView.findViewById(R.id.tv_call);
             ivCall = itemView.findViewById(R.id.iv_call);
-            //ivSms = itemView.findViewById(R.id.iv_sms);
         }
-    }
-
-    private void askForCallPermission(Context context) {
-        ActivityCompat.requestPermissions((Activity) context,
-                new String[]{Manifest.permission.CALL_PHONE},
-                1);
     }
 
 
