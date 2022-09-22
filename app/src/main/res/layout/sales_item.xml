@@ -45,7 +45,7 @@
             android:fontFamily="@font/lato"
             android:gravity="end"
             android:text="@string/price"
-            android:textColor="@color/accent"/>
+            android:textColor="@color/accentTwo"/>
 
 
     </LinearLayout>

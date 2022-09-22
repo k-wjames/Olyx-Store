@@ -65,8 +65,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     Dialog dialog;
 
-    Catalogue catalogue = new Catalogue();
-
+    CustomDialogs customDialogs=new CustomDialogs();
 
     public SellFragment() {
     }
@@ -125,7 +124,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                     commitNewTransaction.execute(item);
                 }
             } else {
-                Toast.makeText(getActivity(), "Empty cart", Toast.LENGTH_SHORT).show();
+                customDialogs.showSnackBar(requireActivity(), "No items have been added to the cart");
             }
 
         } else {
@@ -193,6 +192,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void refillGasDialog(String transType) {
+
+        if (myGasRefillArray.size()==0){
+            customDialogs.showSnackBar(requireActivity(), "No gas refill data found. Please check with your admin");
+            return;
+        }
 
         dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.refill_dialog);
@@ -282,6 +286,11 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     private void sellNewGasDialog(String transType) {
 
+        if (myGasArray.size()==0){
+            customDialogs.showSnackBar(requireActivity(), "No new gas data found. Please check with your admin");
+            return;
+        }
+
         dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.sell_gas_dialog);
         dialog.setCanceledOnTouchOutside(false);
@@ -367,7 +376,10 @@ public class SellFragment extends Fragment implements View.OnClickListener {
     }
 
     private void sellAnAccessoryDialog(String transType) {
-
+        if (myAccessoriesArray.size()==0){
+            customDialogs.showSnackBar(requireActivity(), "No accessories data found. Please check with you admin");
+            return;
+        }
         dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.sell_accessory_dialog);
         dialog.setCanceledOnTouchOutside(false);

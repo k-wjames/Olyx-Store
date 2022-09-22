@@ -61,7 +61,6 @@
             android:text="Gas refill"
             android:textAllCaps="false"
             android:textColor="@color/accent"
-            android:textSize="12sp"
             app:strokeColor="@color/accent"
             app:strokeWidth="1dp" />
 
@@ -75,7 +74,6 @@
             android:text="New Gas"
             android:textAllCaps="false"
             android:textColor="@color/accentTwo"
-            android:textSize="12sp"
             app:strokeColor="@color/accentTwo"
             app:strokeWidth="1dp" />
 
@@ -90,7 +88,6 @@
             android:text="Accessories"
             android:textAllCaps="false"
             android:textColor="@color/accentThree"
-            android:textSize="12sp"
             app:strokeColor="@color/accentThree"
             app:strokeWidth="1dp" />
 
@@ -103,7 +100,7 @@
         android:layout_above="@+id/layer_bottom"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/greenLight"/>
+        android:background="@color/blueLight" />
 
     <RelativeLayout
         android:id="@+id/layer_bottom"
