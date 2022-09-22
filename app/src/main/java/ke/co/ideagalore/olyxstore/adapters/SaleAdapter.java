@@ -39,9 +39,9 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         item=saleItemsList.get(position);
-        holder.product.setText(item.getProduct());
-        holder.quantity.setText(item.getQuantity()+"");
-        holder.price.setText(item.getTotalPrice()+"");
+        holder.product.setText(item.getProduct()+" @ KES "+item.getSellingPrice());
+        holder.quantity.setText("*"+item.getQuantity());
+        holder.price.setText("KES "+item.getTotalPrice());
 
     }
 

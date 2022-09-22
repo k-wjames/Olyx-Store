@@ -26,6 +26,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,11 +42,11 @@ import java.util.Date;
 
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.SaleAdapter;
+import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 import ke.co.ideagalore.olyxstore.databinding.FragmentSellBinding;
 import ke.co.ideagalore.olyxstore.models.Catalogue;
 import ke.co.ideagalore.olyxstore.models.Transaction;
 import ke.co.ideagalore.olyxstore.models.TransactionItem;
-import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 
 public class SellFragment extends Fragment implements View.OnClickListener {
 
@@ -63,7 +65,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     Dialog dialog;
 
-    Catalogue catalogue=new Catalogue();
+    Catalogue catalogue = new Catalogue();
 
 
     public SellFragment() {
@@ -151,7 +153,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                         price = catalogueArrayList.get(i).getMarkedPrice();
                         String category = catalogueArrayList.get(i).getCategory();
                         int buyingPrice = catalogueArrayList.get(i).getBuyingPrice();
-                        int markedPrice=catalogueArrayList.get(i).getMarkedPrice();
+                        int markedPrice = catalogueArrayList.get(i).getMarkedPrice();
 
 
                         transactionItem = new TransactionItem();
@@ -168,7 +170,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
                             transactionItem.setBuyingPrice(buyingPrice);
                             myAccessoriesArray.add(transactionItem);
 
-                        }else {
+                        } else {
                             transactionItem.setMarkedPrice(price);
                             transactionItem.setProduct(prod);
                             transactionItem.setBuyingPrice(buyingPrice);
@@ -452,7 +454,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     private static class CommitNewTransaction extends AsyncTask<Transaction, Void, Void> {
 
-        CustomDialogs dialogs=new CustomDialogs();
+        CustomDialogs dialogs = new CustomDialogs();
         private WeakReference<SellFragment> weakReference;
 
         CommitNewTransaction(SellFragment fragment) {
@@ -474,9 +476,16 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
                 Transaction transaction = transactions[i];
                 String key = transactions[i].getTransactionId();
-                String terminal=transactions[i].getTerminalId();
+                String terminal = transactions[i].getTerminalId();
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
-                myRef.child(key).setValue(transaction);
+                myRef.child(key).setValue(transaction).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Navigation.findNavController(weakReference.get().requireView()).navigate(R.id.homeFragment);
+                        }
+                    }
+                });
 
             }
             return null;

@@ -9,8 +9,8 @@
     <string name="debt">Debt</string>
     <string name="transact">Transact</string>
     <string name="expenses">Expenses</string>
-    <string name="gas_refill">Gas refill</string>
-    <string name="cylinder_sales">Cylinder sales</string>
+    <string name="gas_refill">Refill</string>
+    <string name="cylinder_sales">New Gas</string>
     <string name="accessories">Accessories</string>
     <string name="see_all">See all</string>
     <string name="total_expenditure">Total expenditure</string>
@@ -26,7 +26,7 @@
     <string name="item">Item</string>
     <string name="quantity">Quantity</string>
     <string name="total_in_kes">Total in KES</string>
-    <string name="total_spend_kes">Total spend (KES.)</string>
+    <string name="total_spend_kes">Total cost in KES</string>
     <string name="_0_00">0.00</string>
     <string name="check_out">Check out</string>
     <string name="back">back</string>
@@ -52,5 +52,6 @@
     <string name="please_enter_terminal_id">Please key in an authorised terminal ID</string>
     <string name="we_are_almost_in_one_more_step">We are almost in, one more step</string>
     <string name="please_select_attending_store">Please select your store</string>
+    <string name="price">Price</string>
 
 </resources>

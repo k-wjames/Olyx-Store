@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:id="@+id/layout"
     android:padding="10dp"
     tools:context=".ui.fragments.SellFragment">
 
@@ -23,9 +23,9 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="10dp"
+            android:contentDescription="@string/back"
             android:src="@drawable/ic_back"
-            app:tint="@color/text"
-            android:contentDescription="@string/back" />
+            app:tint="@color/text" />
 
         <TextView
             android:id="@+id/tv_dash"
@@ -46,24 +46,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layer_one"
         android:layout_marginTop="20dp"
-        android:padding="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_refill"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
-            android:text="Cash in"
+            android:text="Gas refill"
             android:textAllCaps="false"
-            android:textColor="@color/accentOne"
+            android:textColor="@color/accent"
             android:textSize="12sp"
-            app:strokeColor="@color/accentOne"
-            app:strokeWidth="1dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="5dp"/>
+            app:strokeColor="@color/accent"
+            app:strokeWidth="1dp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_buy_gas"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -71,11 +72,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
-            android:text="Cash in"
+            android:text="New Gas"
             android:textAllCaps="false"
-            android:textColor="@color/accentOne"
+            android:textColor="@color/accentTwo"
             android:textSize="12sp"
-            app:strokeColor="@color/accentOne"
+            app:strokeColor="@color/accentTwo"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -83,156 +84,26 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato"
-            android:text="Cash in"
-            android:textAllCaps="false"
-            android:textColor="@color/accentOne"
-            android:textSize="12sp"
-            app:strokeColor="@color/accentOne"
-            app:strokeWidth="1dp"
-            android:layout_marginStart="5dp"/>
-
-        <!--<LinearLayout
-            android:id="@+id/ll_refill"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/refill_bg"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/lato"
-                android:text="@string/gas_refill"
-                android:textColor="@color/text"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_buy_gas"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/refill_bg"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/lato"
-                android:text="@string/sell_gas"
-                android:textColor="@color/text"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_buy_accessory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/refill_bg"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/lato"
-                android:text="@string/sell_accessory"
-                android:textColor="@color/text"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>-->
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layer_three"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layer_two"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="2"
-            android:fontFamily="@font/lato"
-            android:text="@string/item"
-            android:textColor="@color/text"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
-            android:gravity="center"
-            android:text="@string/quantity"
-            android:textColor="@color/text"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato"
-            android:gravity="end"
-            android:text="@string/total_in_kes"
-            android:textColor="@color/text"
-            android:textStyle="bold" />
-
+            android:text="Accessories"
+            android:textAllCaps="false"
+            android:textColor="@color/accentThree"
+            android:textSize="12sp"
+            app:strokeColor="@color/accentThree"
+            app:strokeWidth="1dp" />
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/layer_three"
-        android:background="@color/text" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_sales"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view"
+        android:layout_above="@+id/layer_bottom"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="70dp" />
-
-    <View
-        android:id="@+id/view_two"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@id/layer_bottom"
-        android:background="@color/text" />
+        android:layout_marginBottom="10dp"
+        android:background="@color/greenLight"/>
 
     <RelativeLayout
         android:id="@+id/layer_bottom"
@@ -255,7 +126,6 @@
             android:gravity="end"
             android:text="@string/total_spend_kes"
             android:textColor="@color/text"
-            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -269,7 +139,6 @@
             android:gravity="end"
             android:text="@string/_0_00"
             android:textColor="@color/text"
-            android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
@@ -284,7 +153,7 @@
             android:text="@string/check_out"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:backgroundTint="@color/black" />
+            app:backgroundTint="@color/accentTwo" />
 
     </RelativeLayout>
 

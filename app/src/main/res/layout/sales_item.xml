@@ -22,7 +22,8 @@
             android:layout_weight="2"
             android:fontFamily="@font/lato"
             android:text="Product"
-            android:textColor="@color/text" />
+            android:textColor="@color/text"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_quantity"
@@ -32,8 +33,9 @@
             android:layout_weight="1"
             android:fontFamily="@font/lato"
             android:gravity="center"
-            android:text="Quantity"
-            android:textColor="@color/text" />
+            android:text="@string/quantity"
+            android:textColor="@color/text"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_total_price"
@@ -44,8 +46,9 @@
             android:layout_weight="1"
             android:fontFamily="@font/lato"
             android:gravity="end"
-            android:text="Quantity"
-            android:textColor="@color/text" />
+            android:text="@string/price"
+            android:textColor="@color/accent"
+            android:textStyle="bold"/>
 
 
     </LinearLayout>
@@ -54,6 +57,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
-        android:background="@color/light" />
+        android:background="@color/greenLight" />
 
 </LinearLayout>

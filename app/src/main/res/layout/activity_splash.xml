@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/accent"
+    android:background="@color/accentTwo"
     tools:context=".ui.activities.Splash">
 
 
 <ImageView
-    android:layout_width="150dp"
-    android:layout_height="150dp"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
     android:src="@drawable/olyx"
     android:layout_centerInParent="true"
-    app:tint="@color/text"/>
+    app:tint="@color/white"/>
 
 </RelativeLayout>

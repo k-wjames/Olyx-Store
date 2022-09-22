@@ -52,8 +52,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato"
                 android:text="Gas Refil"
-                android:textColor="@color/text"
-                android:textStyle="bold" />
+                android:textColor="@color/text" />
 
             <TextView
                 android:id="@+id/tv_price"
@@ -62,8 +61,7 @@
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/lato"
                 android:text="1500 KES"
-                android:textColor="@color/accentTwo"
-                android:textStyle="bold" />
+                android:textColor="@color/accentTwo" />
 
         </RelativeLayout>
 
