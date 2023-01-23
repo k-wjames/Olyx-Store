@@ -2,19 +2,20 @@ package ke.co.ideagalore.olyxstore.models;
 
 public class Transaction {
 
-    String transactionId,transactionType, product, store, date, time, attendant, terminalId;
+    String transactionId,transactionType, product, store, time, attendant, terminalId;
     int quantity, buyingPrice,sellingPrice,totalPrice, profit;
+    long date;
 
     public Transaction() {
     }
 
     public Transaction(String transactionId, String transactionType, String product, String store,
-                       String date, String time, String attendant, String terminalId, int quantity, int buyingPrice, int sellingPrice, int totalPrice, int profit) {
+                       String time, String attendant, String terminalId, int quantity, int buyingPrice,
+                       int sellingPrice, int totalPrice, int profit, long date) {
         this.transactionId = transactionId;
         this.transactionType = transactionType;
         this.product = product;
         this.store = store;
-        this.date = date;
         this.time = time;
         this.attendant = attendant;
         this.terminalId = terminalId;
@@ -23,6 +24,7 @@ public class Transaction {
         this.sellingPrice = sellingPrice;
         this.totalPrice = totalPrice;
         this.profit = profit;
+        this.date = date;
     }
 
     public String getTransactionId() {
@@ -55,14 +57,6 @@ public class Transaction {
 
     public void setStore(String store) {
         this.store = store;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getTime() {
@@ -127,5 +121,13 @@ public class Transaction {
 
     public void setProfit(int profit) {
         this.profit = profit;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 }

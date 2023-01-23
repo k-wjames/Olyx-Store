@@ -1,10 +1,9 @@
 package ke.co.ideagalore.olyxstore.adapters;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 
 import ke.co.ideagalore.olyxstore.R;
@@ -38,15 +41,27 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Credit credit = creditList.get(position);
 
+        LocalDate localDate = LocalDate.now(ZoneOffset.UTC);
+        long dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String creditDate = sdf.format(new Date(credit.getDate()));
+
         holder.name.setText(credit.getName());
         holder.product.setText(credit.getProduct());
         holder.amount.setText("KES " + credit.getAmount());
-        holder.date.setText(credit.getDate() + " " + credit.getTime());
+
+        if (credit.getDate() == dateToday) {
+            holder.date.setText(credit.getTime());
+        } else {
+            holder.date.setText(creditDate + " " + credit.getTime());
+        }
 
         phone = credit.getPhone();
 

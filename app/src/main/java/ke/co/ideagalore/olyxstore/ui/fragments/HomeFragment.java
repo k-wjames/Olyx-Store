@@ -3,6 +3,7 @@ package ke.co.ideagalore.olyxstore.ui.fragments;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +47,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     List<Expense> expenseList = new ArrayList<>();
 
-    String dateToday, store, name, terminal, terminalId, attendantStore, attendantId, attendantName;
+    String store, name, terminal, terminalId, attendantStore, attendantId, attendantName;
+    long dateToday;
 
     Transaction transaction;
 
@@ -59,6 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return binding.getRoot();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -68,9 +74,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         transactionArrayList = new ArrayList<>();
 
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        dateToday = formatter.format(date);
+        LocalDate localDate = LocalDate.now(ZoneOffset.UTC);
+        dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
 
         binding.cvSell.setOnClickListener(this);
         binding.cvCredit.setOnClickListener(this);
@@ -125,9 +130,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     List<Transaction> soldItems = new ArrayList<>();
 
                     for (Transaction item : transactionArrayList) {
-                        String date = item.getDate();
 
-                        if (date.equals(dateToday)) {
+                        if (item.getDate()==dateToday) {
 
                             soldItems.add(item);
 
@@ -192,9 +196,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         int expenditure = 0;
 
                         for (Expense item : expenseList) {
-                            String date = item.getDate();
 
-                            if (date.equals(dateToday)) {
+                            if (item.getDate()==dateToday) {
                                 List<Expense> daysExpense = new ArrayList<>();
                                 daysExpense.add(item);
 

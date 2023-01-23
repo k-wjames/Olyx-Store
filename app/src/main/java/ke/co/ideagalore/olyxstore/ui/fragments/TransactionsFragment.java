@@ -3,6 +3,7 @@ package ke.co.ideagalore.olyxstore.ui.fragments;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -22,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -34,7 +38,8 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
 
     FragmentTransactionsBinding binding;
     ArrayList<Transaction> transactionArrayList;
-    String dateToday, terminal;
+    String terminal;
+    long dateToday;
 
     TransactionsAdapter adapter;
 
@@ -51,14 +56,14 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
         return binding.getRoot();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         transactionArrayList = new ArrayList<>();
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        dateToday = formatter.format(date);
+        LocalDate localDate = LocalDate.now(ZoneOffset.UTC);
+        dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
 
         getPreferenceData();
         getTransactionsData();

@@ -37,6 +37,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -59,7 +61,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
 
     int price, markedPrice, buyingPrice;
 
-    String transactionType, selectedItem, dateToday, store, name, terminal;
+    String transactionType, selectedItem, store, name, terminal;
+    long dateToday;
 
     Transaction transaction;
 
@@ -77,6 +80,7 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         return binding.getRoot();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -85,9 +89,8 @@ public class SellFragment extends Fragment implements View.OnClickListener {
         myAccessoriesArray = new ArrayList<>();
         myGasRefillArray = new ArrayList<>();
 
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        dateToday = formatter.format(date);
+        LocalDate localDate = LocalDate.now(ZoneOffset.UTC);
+        dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
 
         getPreferenceData();
         getCatalogueData();

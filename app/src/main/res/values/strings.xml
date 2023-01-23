@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Olyx Gas</string>
+    <string name="app_name">GasTrack</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transaction_in_progress">Transaction in progress...</string>

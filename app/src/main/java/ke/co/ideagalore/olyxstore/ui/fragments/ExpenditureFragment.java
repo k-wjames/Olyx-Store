@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -29,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +45,8 @@ import ke.co.ideagalore.olyxstore.models.Expense;
 public class ExpenditureFragment extends Fragment implements View.OnClickListener {
 
     FragmentExpenditureBinding binding;
-    String dateToday, terminal;
+    String terminal;
+    long dateToday;
 
     List<Expense> expenseList = new ArrayList<>();
 
@@ -59,13 +64,14 @@ public class ExpenditureFragment extends Fragment implements View.OnClickListene
         return binding.getRoot();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        dateToday = formatter.format(date);
+        LocalDate localDate = LocalDate.now(ZoneOffset.UTC);
+        dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+
         getPreferenceData();
         getExpenditureData();
 
@@ -211,9 +217,8 @@ public class ExpenditureFragment extends Fragment implements View.OnClickListene
                     List<Expense> expenseIncurred = new ArrayList<>();
 
                     for (Expense exp : expenseList) {
-                        String date = exp.getDate();
 
-                        if (date.equals(dateToday))
+                        if (exp.getDate()==dateToday)
                             expenseIncurred.add(exp);
 
                         displayExpenses(expenseIncurred);
