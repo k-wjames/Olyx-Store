@@ -64,7 +64,7 @@
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/lato"
                 android:text="1500 KES"
-                android:textColor="@color/accentTwo" />
+                android:textColor="@color/accent" />
 
         </RelativeLayout>
 

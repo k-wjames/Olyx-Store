@@ -161,7 +161,7 @@
             android:text="Add"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:backgroundTint="@color/accentThree" />
+            app:backgroundTint="@color/accent" />
 
     </RelativeLayout>
 

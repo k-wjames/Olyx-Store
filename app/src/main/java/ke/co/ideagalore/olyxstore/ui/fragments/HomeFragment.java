@@ -117,6 +117,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                transactionArrayList.clear();
+
                 for (DataSnapshot transactionSnapshot : snapshot.getChildren()) {
 
                     transaction = transactionSnapshot.getValue(Transaction.class);
@@ -131,7 +133,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     for (Transaction item : transactionArrayList) {
 
-                        if (item.getDate()==dateToday) {
+                        if (item.getDate()==dateToday && item.getStore().equals(store)) {
 
                             soldItems.add(item);
 

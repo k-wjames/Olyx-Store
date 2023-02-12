@@ -100,7 +100,7 @@
         android:layout_above="@+id/layer_bottom"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/blueLight" />
+        android:background="@color/greenLight" />
 
     <RelativeLayout
         android:id="@+id/layer_bottom"
@@ -150,7 +150,7 @@
             android:text="@string/check_out"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:backgroundTint="@color/accentTwo" />
+            app:backgroundTint="@color/accent" />
 
     </RelativeLayout>
 

@@ -1,13 +1,19 @@
 package ke.co.ideagalore.olyxstore.adapters;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 
 import ke.co.ideagalore.olyxstore.R;
@@ -28,14 +34,27 @@ public class RecentSalesAdapter extends RecyclerView.Adapter<RecentSalesAdapter.
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Transaction transaction = transactionList.get(position);
         holder.tvId.setText(transaction.getTransactionId());
         holder.tvTransaction.setText(transaction.getTransactionType()+"-"+ transaction.getProduct()+" *"+ transaction.getQuantity());
-        holder.tvDateTime.setText(transaction.getDate()+" "+ transaction.getTime());
+        //holder.tvDateTime.setText(transaction.getDate()+" "+ transaction.getTime());
         holder.tvPrice.setText("KES "+ transaction.getTotalPrice());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String date=sdf.format(new Date(transaction.getDate()));
+
+        LocalDate localDate = LocalDate.now(ZoneOffset.UTC);
+        long dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+
+        if (transaction.getDate()==dateToday) {
+            holder.tvDateTime.setText(transaction.getTime());
+        } else {
+            holder.tvDateTime.setText(date + " " + transaction.getTime());
+        }
 
     }
 
