@@ -2,6 +2,8 @@ package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +27,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,6 +39,7 @@ import ke.co.ideagalore.olyxstore.adapters.RecentSalesAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 import ke.co.ideagalore.olyxstore.models.Expense;
 import ke.co.ideagalore.olyxstore.models.Transaction;
+import ke.co.ideagalore.olyxstore.ui.activities.Onboard;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -81,6 +83,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         binding.cvCredit.setOnClickListener(this);
         binding.cvExpenditure.setOnClickListener(this);
         binding.tvAllTransactions.setOnClickListener(this);
+        binding.ivSignOut.setOnClickListener(this);
     }
 
     @Override
@@ -91,9 +94,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Navigation.findNavController(view).navigate(R.id.transactionsFragment);
         } else if (view == binding.cvExpenditure) {
             Navigation.findNavController(view).navigate(R.id.expenditureFragment);
+        } else if (view == binding.ivSignOut) {
+            logOutUser();
         } else {
             Navigation.findNavController(view).navigate(R.id.creditFragment);
         }
+    }
+
+    private void logOutUser() {
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.sign_out_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+        TextView cancel = dialog.findViewById(R.id.tv_cancel);
+        TextView logout = dialog.findViewById(R.id.tv_logout);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        cancel.setOnClickListener(view -> dialog.dismiss());
+        logout.setOnClickListener(view -> {
+            dialog.dismiss();
+            auth.signOut();
+            clearSharedPrefs();
+
+        });
+    }
+
+    private void clearSharedPrefs() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
+        requireActivity().startActivity(new Intent(requireActivity(), Onboard.class));
+        requireActivity().finish();
     }
 
 
@@ -133,7 +167,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     for (Transaction item : transactionArrayList) {
 
-                        if (item.getDate()==dateToday && item.getStore().equals(store)) {
+                        if (item.getDate() == dateToday && item.getStore().equals(store)) {
 
                             soldItems.add(item);
 
@@ -199,7 +233,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                         for (Expense item : expenseList) {
 
-                            if (item.getDate()==dateToday) {
+                            if (item.getDate() == dateToday) {
                                 List<Expense> daysExpense = new ArrayList<>();
                                 daysExpense.add(item);
 
@@ -246,7 +280,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             getTerminalData(attendantId);
 
         } else {
-            binding.tvDash.setText(store + ",");
+            binding.tvUser.setText("Hi " + name + ",");
+            binding.tvDash.setText(store);
             getTransactionsData();
             getExpenditureData();
         }

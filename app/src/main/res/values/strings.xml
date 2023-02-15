@@ -53,5 +53,10 @@
     <string name="we_are_almost_in_one_more_step">We are almost in, one more step</string>
     <string name="please_select_attending_store">Please select your store</string>
     <string name="price">Price</string>
+    <string name="logout_from_the_app">Logout from the app?</string>
+    <string name="logout">Logout</string>
+    <string name="not_now">Not now</string>
+    <string name="yes">Yes, log me out</string>
+    <string name="sign_out_notification">You can always login later. Until then, your account stays safe.</string>
 
 </resources>
