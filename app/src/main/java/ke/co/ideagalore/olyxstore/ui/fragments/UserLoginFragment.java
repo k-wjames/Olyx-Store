@@ -2,6 +2,7 @@ package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,9 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +35,7 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
 
     CustomDialogs customDialogs = new CustomDialogs();
     ValidateFields validator = new ValidateFields();
-    String store, name, terminal,attendantId,attendantStore,attendantName,terminalId;
+    String store, name, terminal, attendantId, attendantStore, attendantName, terminalId;
 
     public UserLoginFragment() {
 
@@ -125,15 +123,19 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
     }
 
     public void savePreferencesData() {
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("name", attendantName);
-        editor.putString("store", attendantStore);
-        editor.putString("terminal", terminalId);
-        editor.commit();
 
-        customDialogs.dismissProgressDialog();
-        startActivity(new Intent(getActivity(), Home.class));
-        requireActivity().finish();
+        Activity activity = getActivity();
+        if (activity != null) {
+            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("name", attendantName);
+            editor.putString("store", attendantStore);
+            editor.putString("terminal", terminalId);
+            editor.commit();
+
+            customDialogs.dismissProgressDialog();
+            startActivity(new Intent(getActivity(), Home.class));
+            requireActivity().finish();
+        }
     }
 }
