@@ -21,10 +21,18 @@ import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class RecentSalesAdapter extends RecyclerView.Adapter<RecentSalesAdapter.ViewHolder> {
 
+
+    public interface OnItemClickListener {
+        void onItemClick(Transaction transaction);
+    }
+
     List<Transaction> transactionList;
 
-    public RecentSalesAdapter(List<Transaction> transactionList) {
+    private final OnItemClickListener listener;
+
+    public RecentSalesAdapter(List<Transaction> transactionList, OnItemClickListener listener) {
         this.transactionList = transactionList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,23 +46,7 @@ public class RecentSalesAdapter extends RecyclerView.Adapter<RecentSalesAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Transaction transaction = transactionList.get(position);
-        holder.tvId.setText(transaction.getTransactionId());
-        holder.tvTransaction.setText(transaction.getTransactionType()+"-"+ transaction.getProduct()+" *"+ transaction.getQuantity());
-        //holder.tvDateTime.setText(transaction.getDate()+" "+ transaction.getTime());
-        holder.tvPrice.setText("KES "+ transaction.getTotalPrice());
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String date=sdf.format(new Date(transaction.getDate()));
-
-        LocalDate localDate = LocalDate.now(ZoneOffset.UTC);
-        long dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
-
-        if (transaction.getDate()==dateToday) {
-            holder.tvDateTime.setText(transaction.getTime());
-        } else {
-            holder.tvDateTime.setText(date + " " + transaction.getTime());
-        }
+        holder.bind(transactionList.get(position),listener);
 
     }
 
@@ -74,6 +66,32 @@ public class RecentSalesAdapter extends RecyclerView.Adapter<RecentSalesAdapter.
             tvTransaction = itemView.findViewById(R.id.tv_transaction);
             tvDateTime = itemView.findViewById(R.id.tv_date_time);
             tvPrice = itemView.findViewById(R.id.tv_price);
+        }
+
+        public void bind(Transaction transaction, OnItemClickListener listener) {
+            tvId.setText(transaction.getTransactionId());
+            tvTransaction.setText(transaction.getTransactionType()+"-"+ transaction.getProduct()+" *"+ transaction.getQuantity());
+            tvPrice.setText("KES "+ transaction.getTotalPrice());
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String date=sdf.format(new Date(transaction.getDate()));
+
+            LocalDate localDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                localDate = LocalDate.now(ZoneOffset.UTC);
+            }
+            long dateToday = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+            }
+
+            if (transaction.getDate()==dateToday) {
+                tvDateTime.setText(transaction.getTime());
+            } else {
+                tvDateTime.setText(date + " " + transaction.getTime());
+            }
+
+            itemView.setOnClickListener(v -> listener.onItemClick(transaction));
         }
     }
 }

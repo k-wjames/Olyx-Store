@@ -2,16 +2,27 @@ package ke.co.ideagalore.olyxstore.models;
 
 public class TransactionItem {
 
-    int buyingPrice, markedPrice;
-    String product;
+    int buyingPrice, markedPrice, totalStock, soldStock;
+    String product, productId;
 
     public TransactionItem() {
     }
 
-    public TransactionItem(int buyingPrice, int markedPrice, String product) {
+    public TransactionItem(int buyingPrice, int markedPrice, int totalStock, String product, String productId, int soldStock) {
         this.buyingPrice = buyingPrice;
         this.markedPrice = markedPrice;
+        this.totalStock = totalStock;
         this.product = product;
+        this.productId = productId;
+        this.soldStock=soldStock;
+    }
+
+    public void setSoldStock(int soldStock) {
+        this.soldStock = soldStock;
+    }
+
+    public int getSoldStock() {
+        return soldStock;
     }
 
     public int getBuyingPrice() {
@@ -30,12 +41,28 @@ public class TransactionItem {
         this.markedPrice = markedPrice;
     }
 
+    public int getTotalStock() {
+        return totalStock;
+    }
+
+    public void setTotalStock(int totalStock) {
+        this.totalStock = totalStock;
+    }
+
     public String getProduct() {
         return product;
     }
 
     public void setProduct(String product) {
         this.product = product;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String toString()

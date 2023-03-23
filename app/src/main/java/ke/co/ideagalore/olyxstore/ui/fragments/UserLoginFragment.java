@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 import ke.co.ideagalore.olyxstore.commons.ValidateFields;
@@ -35,7 +38,9 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
 
     CustomDialogs customDialogs = new CustomDialogs();
     ValidateFields validator = new ValidateFields();
-    String store, name, terminal, attendantId, attendantStore, attendantName, terminalId;
+    String attendantStore, attendantName, terminalId, status, attendantEmail, signInEmail;
+
+    FirebaseAuth auth;
 
     public UserLoginFragment() {
 
@@ -52,6 +57,7 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         binding.tvSignup.setOnClickListener(this);
         binding.btnLogin.setOnClickListener(this);
     }
@@ -60,7 +66,7 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         if (view == binding.tvSignup) {
             Navigation.findNavController(view).navigate(R.id.terminalIdFragment);
-        } else {
+        } else if (view == binding.btnLogin) {
             if (validator.validateEmailAddress(requireActivity(), binding.edtEmail)
                     && validator.validateEditTextFields(requireActivity(), binding.edtPassword)) {
                 signInUser();
@@ -71,12 +77,14 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
     private void signInUser() {
 
         customDialogs.showProgressDialog(requireActivity(), "Signing in");
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword(binding.edtEmail.getText().toString().trim(), binding.edtPassword.getText().toString().trim())
+        signInEmail = binding.edtEmail.getText().toString().trim();
+        auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword(signInEmail, binding.edtPassword.getText().toString().trim())
                 .addOnCompleteListener(task -> {
 
                     if (task.isSuccessful()) {
-                        getPreferenceData();
+                        //getPreferenceData();
+                        getTerminalData(auth.getUid());
                     }
 
                 }).addOnFailureListener(e -> {
@@ -85,34 +93,52 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
                 });
     }
 
-    private void getPreferenceData() {
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
-        store = sharedPreferences.getString("store", null);
-        terminal = sharedPreferences.getString("terminal", null);
-        name = sharedPreferences.getString("name", null);
-
-        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(terminal) && TextUtils.isEmpty(store)) {
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            attendantId = auth.getUid();
-            getTerminalData(attendantId);
-
-        } else {
-            customDialogs.dismissProgressDialog();
-            startActivity(new Intent(getActivity(), Home.class));
-            requireActivity().finish();
-        }
-
-    }
-
     private void getTerminalData(String attendantId) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Attendants").child(attendantId);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                attendantStore = snapshot.child("store").getValue(String.class);
-                attendantName = snapshot.child("attendant").getValue(String.class);
-                terminalId = snapshot.child("terminal").getValue(String.class);
-                savePreferencesData();
+                if (snapshot.exists()) {
+                    attendantStore = snapshot.child("store").getValue(String.class);
+                    attendantName = snapshot.child("attendant").getValue(String.class);
+                    terminalId = snapshot.child("terminal").getValue(String.class);
+                    status = snapshot.child("status").getValue(String.class);
+                    attendantEmail = snapshot.child("emailId").getValue(String.class);
+
+                    if (status.equals("authenticate") || TextUtils.isEmpty(attendantEmail)) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("status", "authenticated");
+                        map.put("emailId", signInEmail);
+                        ref.updateChildren(map).addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                savePreferencesData();
+                                customDialogs.dismissProgressDialog();
+                                startActivity(new Intent(getActivity(), Home.class));
+                                requireActivity().finish();
+                            }
+                        });
+                    }
+
+                    if (status.equals("terminated")) {
+
+                        customDialogs.showSnackBar(requireActivity(), "Access denied. Please check with admin");
+                        auth.signOut();
+                        clearSharedPrefs();
+
+                    }
+
+                    if (status.equals("authenticated")) {
+                        customDialogs.dismissProgressDialog();
+                        savePreferencesData();
+                        startActivity(new Intent(requireActivity(), Home.class));
+                        requireActivity().finish();
+                    }
+                } else {
+                    customDialogs.dismissProgressDialog();
+                    auth.signOut();
+                    clearSharedPrefs();
+                    customDialogs.showSnackBar(requireActivity(), "User does not exist. Please check with admin");
+                }
             }
 
             @Override
@@ -120,6 +146,11 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
 
             }
         });
+    }
+
+    private void clearSharedPrefs() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
     }
 
     public void savePreferencesData() {
@@ -132,10 +163,6 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
             editor.putString("store", attendantStore);
             editor.putString("terminal", terminalId);
             editor.commit();
-
-            customDialogs.dismissProgressDialog();
-            startActivity(new Intent(getActivity(), Home.class));
-            requireActivity().finish();
         }
     }
 }

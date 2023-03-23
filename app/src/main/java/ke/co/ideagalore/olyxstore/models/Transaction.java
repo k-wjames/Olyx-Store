@@ -2,18 +2,20 @@ package ke.co.ideagalore.olyxstore.models;
 
 public class Transaction {
 
-    String transactionId,transactionType, product, store, time, attendant, terminalId;
-    int quantity, buyingPrice,sellingPrice,totalPrice, profit;
+    String transactionId, transactionType, productId, product, store, time, attendant, terminalId;
+    int quantity, buyingPrice, sellingPrice, totalPrice, profit, stockedQuantity, updatedStock;
     long date;
 
     public Transaction() {
     }
 
-    public Transaction(String transactionId, String transactionType, String product, String store,
-                       String time, String attendant, String terminalId, int quantity, int buyingPrice,
-                       int sellingPrice, int totalPrice, int profit, long date) {
+    public Transaction(String transactionId, String transactionType, String productId, String product,
+                       String store, String time, String attendant, String terminalId,
+                       int quantity, int buyingPrice, int sellingPrice, int totalPrice, int profit,
+                       int stockedQuantity, int updatedStock, long date) {
         this.transactionId = transactionId;
         this.transactionType = transactionType;
+        this.productId = productId;
         this.product = product;
         this.store = store;
         this.time = time;
@@ -24,6 +26,8 @@ public class Transaction {
         this.sellingPrice = sellingPrice;
         this.totalPrice = totalPrice;
         this.profit = profit;
+        this.stockedQuantity = stockedQuantity;
+        this.updatedStock = updatedStock;
         this.date = date;
     }
 
@@ -41,6 +45,14 @@ public class Transaction {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getProduct() {
@@ -121,6 +133,22 @@ public class Transaction {
 
     public void setProfit(int profit) {
         this.profit = profit;
+    }
+
+    public int getStockedQuantity() {
+        return stockedQuantity;
+    }
+
+    public void setStockedQuantity(int stockedQuantity) {
+        this.stockedQuantity = stockedQuantity;
+    }
+
+    public int getUpdatedStock() {
+        return updatedStock;
+    }
+
+    public void setUpdatedStock(int updatedStock) {
+        this.updatedStock = updatedStock;
     }
 
     public long getDate() {

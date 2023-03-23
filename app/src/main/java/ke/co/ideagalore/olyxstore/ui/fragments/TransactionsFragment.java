@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ke.co.ideagalore.olyxstore.R;
+import ke.co.ideagalore.olyxstore.adapters.RecentSalesAdapter;
 import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentTransactionsBinding;
 import ke.co.ideagalore.olyxstore.models.Transaction;
@@ -41,7 +43,7 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     String terminal;
     long dateToday;
 
-    TransactionsAdapter adapter;
+    RecentSalesAdapter adapter;
 
     Transaction transaction;
 
@@ -119,7 +121,12 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     private void displayList() {
         binding.rvTransactions.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvTransactions.setHasFixedSize(true);
-        TransactionsAdapter adapter = new TransactionsAdapter(getActivity(), transactionArrayList);
+        RecentSalesAdapter adapter = new RecentSalesAdapter(transactionArrayList, new RecentSalesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Transaction transaction) {
+                Toast.makeText(requireActivity(), transaction.getProduct(), Toast.LENGTH_SHORT).show();
+            }
+        } );
         binding.rvTransactions.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -127,13 +134,18 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     private void searchProduct(String item) {
         ArrayList<Transaction> filteredList = new ArrayList<>();
         for (Transaction object : transactionArrayList) {
-            if (object.getTransactionType().toLowerCase().contains(item.toLowerCase())) {
+            if (object.getProduct().toLowerCase().contains(item.toLowerCase())) {
                 filteredList.add(object);
             }
         }
         binding.rvTransactions.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvTransactions.setHasFixedSize(true);
-        adapter = new TransactionsAdapter(getActivity(), filteredList);
+        adapter = new RecentSalesAdapter(filteredList, new RecentSalesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Transaction transaction) {
+                Toast.makeText(requireActivity(), transaction.getTransactionId(), Toast.LENGTH_SHORT).show();
+            }
+        });
         binding.rvTransactions.setAdapter(adapter);
     }
 

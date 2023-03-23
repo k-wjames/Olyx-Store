@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ import java.util.Locale;
 
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.RecentSalesAdapter;
+import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 import ke.co.ideagalore.olyxstore.models.Expense;
 import ke.co.ideagalore.olyxstore.models.Transaction;
@@ -72,6 +74,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         getCurrentDate();
+
         getPreferenceData();
 
         transactionArrayList = new ArrayList<>();
@@ -167,7 +170,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     for (Transaction item : transactionArrayList) {
 
-                        if (item.getDate() == dateToday && item.getStore().equals(store)) {
+                        if (item.getStore().equals(store) && item.getDate() == dateToday) {
 
                             soldItems.add(item);
 
@@ -263,7 +266,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void displayList(List<Transaction> list) {
         binding.rvTransactions.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvTransactions.setHasFixedSize(true);
-        RecentSalesAdapter adapter = new RecentSalesAdapter(list);
+        RecentSalesAdapter adapter = new RecentSalesAdapter(list, new RecentSalesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Transaction transaction) {
+
+                Toast.makeText(requireContext(), transaction.getProduct(), Toast.LENGTH_SHORT).show();
+            }
+        });
         binding.rvTransactions.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

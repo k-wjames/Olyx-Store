@@ -12,45 +12,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
-    Context context;
-    ArrayList<Transaction> transactionArrayList;
 
+    public interface OnItemClickListener {
+        void onItemClick(Transaction transaction);
+    }
+    Context context;
+    List<Transaction> transactionArrayList;
+
+    private final OnItemClickListener listener;
     Transaction transaction;
 
-    public TransactionsAdapter() {
-    }
-
-    public TransactionsAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
-        this.context = context;
+    public TransactionsAdapter(ArrayList<Transaction> transactionArrayList, OnItemClickListener listener) {
         this.transactionArrayList = transactionArrayList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public TransactionsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.transaction_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TransactionsAdapter.ViewHolder holder, int position) {
 
-        transaction = transactionArrayList.get(position);
-        holder.product.setText(transaction.getProduct() + " *" + transaction.getQuantity());
-        holder.transactionType.setText(transaction.getTransactionType());
-        holder.price.setText("Price KES " + transaction.getTotalPrice());
-
-        if (getDate().equals(transaction.getDate())) {
-            holder.time.setText(transaction.getTime());
-        } else {
-            holder.time.setText(transaction.getDate() + " " + transaction.getTime());
-        }
+        holder.bind(transactionArrayList.get(position),listener);
     }
 
     @Override
@@ -68,6 +62,20 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             transactionType = itemView.findViewById(R.id.tv_transaction_type);
             price = itemView.findViewById(R.id.tv_price);
             time = itemView.findViewById(R.id.tv_time);
+        }
+
+        public void bind(Transaction transaction, OnItemClickListener listener) {
+            product.setText(transaction.getProduct() + " *" + transaction.getQuantity());
+            transactionType.setText(transaction.getTransactionType());
+            price.setText("Price KES " + transaction.getTotalPrice());
+
+            if (getDate().equals(transaction.getDate())) {
+                time.setText(transaction.getTime());
+            } else {
+                time.setText(transaction.getDate() + " " + transaction.getTime());
+            }
+
+
         }
     }
 
