@@ -1,7 +1,6 @@
 package ke.co.ideagalore.olyxstore.models;
 
 public class Catalogue {
-
     String prodId, product, category, shop;
     int stockedQuantity, buyingPrice, markedPrice,  soldItems,availableStock;
 

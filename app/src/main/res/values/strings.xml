@@ -58,5 +58,13 @@
     <string name="not_now">Not now</string>
     <string name="yes">Yes, log me out</string>
     <string name="sign_out_notification">You can always login later. Until then, your account stays safe.</string>
+    <string name="manage_transaction">Manage this transaction?</string>
+    <string name="delete_transaction">Delete transaction</string>
+    <string name="update_transaction">Update transaction</string>
+    <string name="access_denied">Access denied!</string>
+    <string name="check_with_admin">You can no longer access your account. Please check with your supervisor.</string>
+    <string name="session_expired">Session expired.</string>
+    <string name="session_expired_note">Please sign in to access your account.</string>
+    <string name="catalogue">Catalogue</string>
 
 </resources>

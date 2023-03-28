@@ -2,12 +2,15 @@ package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,16 +27,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.RecentSalesAdapter;
-import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
+import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 import ke.co.ideagalore.olyxstore.databinding.FragmentTransactionsBinding;
+import ke.co.ideagalore.olyxstore.models.Catalogue;
 import ke.co.ideagalore.olyxstore.models.Transaction;
 
 public class TransactionsFragment extends Fragment implements View.OnClickListener {
@@ -46,6 +50,10 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     RecentSalesAdapter adapter;
 
     Transaction transaction;
+
+    DatabaseReference reference,ref;
+
+    CustomDialogs customDialogs = new CustomDialogs();
 
     public TransactionsFragment() {
     }
@@ -68,6 +76,9 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
         dateToday = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
 
         getPreferenceData();
+
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
+        ref=FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Catalogue");
         getTransactionsData();
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -88,7 +99,6 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
     }
 
     private void getTransactionsData() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Transactions").child("Sales");
         binding.progressBar.setVisibility(View.VISIBLE);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -124,12 +134,101 @@ public class TransactionsFragment extends Fragment implements View.OnClickListen
         RecentSalesAdapter adapter = new RecentSalesAdapter(transactionArrayList, new RecentSalesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Transaction transaction) {
-                Toast.makeText(requireActivity(), transaction.getProduct(), Toast.LENGTH_SHORT).show();
+
+                //showManageTransactionsDialog(transaction);
+                //Toast.makeText(requireActivity(), transaction.getProduct(), Toast.LENGTH_SHORT).show();
             }
-        } );
+        });
         binding.rvTransactions.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
+
+    private void showManageTransactionsDialog(Transaction transaction) {
+
+        Dialog myDialog = new Dialog(requireActivity());
+        myDialog.setContentView(R.layout.manage_transaction_dialog);
+        myDialog.setCanceledOnTouchOutside(false);
+        myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        myDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        myDialog.show();
+
+        RelativeLayout rlUpdateTransaction = myDialog.findViewById(R.id.rl_update_transaction);
+        RelativeLayout rlDeleteTransaction = myDialog.findViewById(R.id.rl_delete_transaction);
+
+        ImageView imageView = myDialog.findViewById(R.id.iv_cancel);
+        imageView.setOnClickListener(view -> myDialog.dismiss());
+
+        rlUpdateTransaction.setOnClickListener(view -> {
+           /* Bundle bundle = new Bundle();
+            bundle.putString("productId", item.getProdId());
+            bundle.putString("product", item.getProduct());
+            bundle.putString("category", item.getCategory());
+            bundle.putInt("stockedItems", item.getStockedQuantity());
+            bundle.putInt("buyingPrice", item.getBuyingPrice());
+            bundle.putInt("sellingPrice", item.getMarkedPrice());
+            bundle.putString("shop", item.getShop());
+            bundle.putInt("availableStock",item.getAvailableStock());
+            bundle.putInt("soldItems", item.getSoldItems());
+            myDialog.dismiss();
+            Navigation.findNavController(CatalogueItemsFragment.this.requireView()).navigate(R.id.editProductFragment, bundle);*/
+        });
+
+        rlDeleteTransaction.setOnClickListener(view -> deleteProduct(transaction.getTransactionId(), transaction.getProductId(), transaction.getQuantity(), myDialog));
+
+    }
+
+    private void deleteProduct(String transactionId, String productId, int quantity, Dialog myDialog) {
+        reference.child(transactionId).setValue(null).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                getCatalogueData(productId,quantity,myDialog);
+
+            }
+
+        }).addOnFailureListener(e -> customDialogs.showSnackBar(requireActivity(), e.getMessage()));
+    }
+
+    private void getCatalogueData(String productId, int quantity, Dialog myDialog) {
+        myDialog.dismiss();
+        ref.child(productId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Catalogue catalogue=snapshot.getValue(Catalogue.class);
+                int available=catalogue.getAvailableStock();
+                int soldItems=catalogue.getSoldItems();
+
+                int updatedAvailable=available+quantity;
+                int updatedSoldItems=soldItems-quantity;
+
+                updateCatalogue(productId,updatedSoldItems,updatedAvailable, myDialog);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        //customDialogs.showSnackBar(requireActivity(),"Updating "+productId+" with "+quantity);
+    }
+
+    private void updateCatalogue(String productId, int updatedSoldItems, int updatedAvailable, Dialog myDialog) {
+
+        Map<String, Object> map=new HashMap<>();
+        map.put("availableStock",updatedAvailable);
+        map.put("soldItems",updatedSoldItems);
+
+        DatabaseReference myRef=ref=FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Catalogue").child(productId);
+        myRef.updateChildren(map).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                myDialog.dismiss();
+                customDialogs.showSnackBar(requireActivity(), "Transaction deleted.");
+                getTransactionsData();
+
+            }
+        }).addOnFailureListener(e -> customDialogs.showSnackBar(requireActivity(), e.getMessage()));
+
+    }
+
 
     private void searchProduct(String item) {
         ArrayList<Transaction> filteredList = new ArrayList<>();

@@ -1,17 +1,18 @@
 package ke.co.ideagalore.olyxstore.models;
 
 public class Attendant {
-    String attendant, attendantId, store;
-    boolean accessStatus;
+    String attendant, attendantId, store, status,emailId,terminal;
 
     public Attendant() {
     }
 
-    public Attendant(String attendant, String attendantId, String store, boolean accessStatus) {
+    public Attendant(String attendant, String attendantId, String store, String status, String emailId, String terminal) {
         this.attendant = attendant;
         this.attendantId = attendantId;
         this.store = store;
-        this.accessStatus = accessStatus;
+        this.status = status;
+        this.emailId = emailId;
+        this.terminal = terminal;
     }
 
     public String getAttendant() {
@@ -38,11 +39,27 @@ public class Attendant {
         this.store = store;
     }
 
-    public boolean isAccessStatus() {
-        return accessStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setAccessStatus(boolean accessStatus) {
-        this.accessStatus = accessStatus;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public String getTerminal() {
+        return terminal;
+    }
+
+    public void setTerminal(String terminal) {
+        this.terminal = terminal;
     }
 }

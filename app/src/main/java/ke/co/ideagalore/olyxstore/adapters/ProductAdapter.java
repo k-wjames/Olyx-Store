@@ -41,9 +41,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         product=productList.get(position);
 
-        holder.brand.setText(product.getBrand());
+       /* holder.brand.setText(product.getBrand());
         holder.capacity.setText(product.getCapacity()+" Kg ");
-        holder.quantity.setText(product.getQuantity()+"");
+        holder.quantity.setText(product.getQuantity()+"");*/
 
     }
 
@@ -58,9 +58,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            brand=itemView.findViewById(R.id.tv_brand);
+           /* brand=itemView.findViewById(R.id.tv_brand);
             capacity=itemView.findViewById(R.id.tv_capacity);
-            quantity=itemView.findViewById(R.id.tv_quantity);
+            quantity=itemView.findViewById(R.id.tv_quantity);*/
 
         }
     }

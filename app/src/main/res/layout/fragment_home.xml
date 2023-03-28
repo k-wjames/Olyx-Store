@@ -381,7 +381,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/lato"
-                    android:text="@string/debt"
+                    android:text="@string/catalogue"
                     android:textColor="@color/text" />
 
             </LinearLayout>

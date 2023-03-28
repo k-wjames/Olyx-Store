@@ -1,59 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/layout"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    android:layout_margin="1dp"
+    app:cardCornerRadius="0dp"
+    app:cardBackgroundColor="@color/cardview_light_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center">
+
 
         <TextView
-            android:id="@+id/tv_brand"
-            android:layout_width="0dp"
+            android:id="@+id/tv_product"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:fontFamily="@font/lato"
-            android:text="Product"
-            android:textColor="@color/text" />
+            android:text="Pro Gas 6Kg"
+            android:textColor="@color/text"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"/>
 
-        <TextView
-            android:id="@+id/tv_capacity"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato"
-            android:gravity="center"
-            android:text="Description"
-            android:textColor="@color/text" />
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/tv_quantity"
-            android:layout_width="0dp"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
+                android:text="Selling Price"
+                android:textColor="@color/text"
+                android:layout_weight="1"
+                android:textSize="11sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato"
+                android:text="Available"
+                android:layout_weight="1"
+                android:textColor="@color/text"
+                android:textSize="11sp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato"
-            android:gravity="end"
-            android:text="Quantity"
-            android:textColor="@color/text" />
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:layout_marginTop="10dp">
 
+            <TextView
+                android:id="@+id/tv_selling_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/lato"
+                android:text="KES 2000"
+                android:textColor="@color/text"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_available"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/lato"
+                android:text="6/30"
+                android:textColor="@color/text"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/light" />
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

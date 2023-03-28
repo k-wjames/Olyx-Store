@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +36,7 @@ import java.util.Locale;
 
 import ke.co.ideagalore.olyxstore.R;
 import ke.co.ideagalore.olyxstore.adapters.RecentSalesAdapter;
-import ke.co.ideagalore.olyxstore.adapters.TransactionsAdapter;
+import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 import ke.co.ideagalore.olyxstore.databinding.FragmentHomeBinding;
 import ke.co.ideagalore.olyxstore.models.Expense;
 import ke.co.ideagalore.olyxstore.models.Transaction;
@@ -57,6 +56,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     Transaction transaction;
 
     Expense expense;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public HomeFragment() {
     }
@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         } else if (view == binding.ivSignOut) {
             logOutUser();
         } else {
-            Navigation.findNavController(view).navigate(R.id.creditFragment);
+            Navigation.findNavController(view).navigate(R.id.catalogueFragment);
         }
     }
 
@@ -114,8 +114,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         TextView cancel = dialog.findViewById(R.id.tv_cancel);
         TextView logout = dialog.findViewById(R.id.tv_logout);
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
 
         cancel.setOnClickListener(view -> dialog.dismiss());
         logout.setOnClickListener(view -> {
@@ -132,7 +130,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         requireActivity().startActivity(new Intent(requireActivity(), Onboard.class));
         requireActivity().finish();
     }
-
 
     private void getCurrentDate() {
         Calendar calendar = Calendar.getInstance();
@@ -270,7 +267,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(Transaction transaction) {
 
-                Toast.makeText(requireContext(), transaction.getProduct(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(requireContext(), transaction.getProduct(), Toast.LENGTH_SHORT).show();
             }
         });
         binding.rvTransactions.setAdapter(adapter);
@@ -323,4 +320,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         editor.putString("terminal", terminalId);
         editor.commit();
     }
+
 }

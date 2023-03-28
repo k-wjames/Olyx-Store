@@ -2,7 +2,6 @@ package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,7 +27,6 @@ import ke.co.ideagalore.olyxstore.commons.CustomDialogs;
 import ke.co.ideagalore.olyxstore.commons.ValidateFields;
 import ke.co.ideagalore.olyxstore.databinding.FragmentUserSignUpBinding;
 import ke.co.ideagalore.olyxstore.models.Attendant;
-import ke.co.ideagalore.olyxstore.ui.activities.Home;
 
 public class UserSignUpFragment extends Fragment implements View.OnClickListener {
 
@@ -82,24 +80,23 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
         auth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(task -> {
 
             if (task.isSuccessful()) {
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(terminal).child("Attendants");
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Attendants");
                 userId = auth.getUid();
                 Attendant attendant = new Attendant();
                 attendant.setAttendantId(userId);
                 attendant.setAttendant(binding.edtUsername.getText().toString().trim());
                 attendant.setStore(selectedStore);
-                attendant.setAccessStatus(false);
+                attendant.setStatus("authenticate");
+                attendant.setEmailId(mail);
+                attendant.setTerminal(terminal);
 
-                reference.child(userId).setValue(attendant).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            customDialogs.dismissProgressDialog();
-                            savePreferencesData();
-                            Navigation.findNavController(requireView()).navigate(R.id.userLoginFragment);
-                        }
-
+                reference.child(userId).setValue(attendant).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        customDialogs.dismissProgressDialog();
+                        savePreferencesData();
+                        Navigation.findNavController(requireView()).navigate(R.id.userLoginFragment);
                     }
+
                 }).addOnFailureListener(e -> {
                     customDialogs.dismissProgressDialog();
                     customDialogs.showSnackBar(requireActivity(), e.getMessage());
@@ -131,12 +128,15 @@ public class UserSignUpFragment extends Fragment implements View.OnClickListener
         editor.putString("terminal", terminal);
         editor.commit();
 
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Attendants").child(userId);
+        /*DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Attendants").child(userId);
         Map<String, String>map=new HashMap<>();
         map.put("attendant",binding.edtUsername.getText().toString().trim());
         map.put("terminal", terminal);
         map.put("store", selectedStore);
-        ref.setValue(map);
+        map.put("status",attendant.getStatus());
+        map.put("emailId", attendant.getEmailId());
+        ref.setValue(map);*/
+
     }
 
 }

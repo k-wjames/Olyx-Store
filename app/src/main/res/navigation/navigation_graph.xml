@@ -46,6 +46,10 @@
             android:id="@+id/action_homeFragment_to_transactionsFragment"
             app:destination="@id/transactionsFragment"
             app:popUpTo="@id/transactionsFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_catalogueFragment"
+            app:destination="@id/catalogueFragment"
+            app:popUpTo="@id/catalogueFragment"/>
     </fragment>
     <fragment
         android:id="@+id/expenditureFragment"
@@ -64,6 +68,16 @@
         tools:layout="@layout/fragment_credit" >
         <action
             android:id="@+id/action_creditFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/catalogueFragment"
+        android:name="ke.co.ideagalore.olyxstore.ui.fragments.CatalogueFragment"
+        android:label="fragment_catalogue"
+        tools:layout="@layout/fragment_catalogue" >
+        <action
+            android:id="@+id/action_catalogueFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"/>
     </fragment>

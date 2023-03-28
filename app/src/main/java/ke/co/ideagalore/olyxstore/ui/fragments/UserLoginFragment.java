@@ -2,11 +2,9 @@ package ke.co.ideagalore.olyxstore.ui.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +81,6 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
                 .addOnCompleteListener(task -> {
 
                     if (task.isSuccessful()) {
-                        //getPreferenceData();
                         getTerminalData(auth.getUid());
                     }
 
@@ -105,34 +102,30 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
                     status = snapshot.child("status").getValue(String.class);
                     attendantEmail = snapshot.child("emailId").getValue(String.class);
 
-                    if (status.equals("authenticate") || TextUtils.isEmpty(attendantEmail)) {
+                    if (status.equals("authenticate")) {
                         Map<String, Object> map = new HashMap<>();
                         map.put("status", "authenticated");
                         map.put("emailId", signInEmail);
                         ref.updateChildren(map).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 savePreferencesData();
-                                customDialogs.dismissProgressDialog();
-                                startActivity(new Intent(getActivity(), Home.class));
-                                requireActivity().finish();
                             }
                         });
+                        return;
                     }
 
                     if (status.equals("terminated")) {
-
+                        customDialogs.dismissProgressDialog();
                         customDialogs.showSnackBar(requireActivity(), "Access denied. Please check with admin");
                         auth.signOut();
                         clearSharedPrefs();
+                        return;
 
-                    }
-
-                    if (status.equals("authenticated")) {
-                        customDialogs.dismissProgressDialog();
+                    } if(status.equals("authenticated")) {
                         savePreferencesData();
-                        startActivity(new Intent(requireActivity(), Home.class));
-                        requireActivity().finish();
+
                     }
+
                 } else {
                     customDialogs.dismissProgressDialog();
                     auth.signOut();
@@ -148,21 +141,25 @@ public class UserLoginFragment extends Fragment implements View.OnClickListener 
         });
     }
 
+    private void startHomeActivity() {
+        startActivity(new Intent(requireActivity(), Home.class));
+        requireActivity().finish();
+    }
+
     private void clearSharedPrefs() {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
     }
 
     public void savePreferencesData() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", attendantName);
+        editor.putString("store", attendantStore);
+        editor.putString("terminal", terminalId);
+        editor.commit();
 
-        Activity activity = getActivity();
-        if (activity != null) {
-            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Terminal", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("name", attendantName);
-            editor.putString("store", attendantStore);
-            editor.putString("terminal", terminalId);
-            editor.commit();
-        }
+        customDialogs.dismissProgressDialog();
+        startHomeActivity();
     }
 }
